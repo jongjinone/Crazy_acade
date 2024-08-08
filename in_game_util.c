@@ -76,7 +76,7 @@ void set_barrier(int level, Barrier** barrier) {
     }
 
     for (int i = 0; i < num_barriers; i++) {
-        load_barrier = set_barrier_img(&(*barrier)[i]);
+        load_barrier = set_barrier_img(level, &(*barrier)[i]);
 
         if (load_barrier == -1) {
             allegro_message("Barrier image loading Error");
@@ -159,6 +159,10 @@ void set_zombie_pos(int level) {
 
 // 캐릭터 이미지 로드
 void set_user_char(int character) {
+    user.hp = 10;
+    user.speed = 1;
+    user.water_bubble_cnt = 1;
+
     switch (character) {
     case 1:
         user.front = load_bitmap(USER_CHARACTER_FRONT_1, NULL);
@@ -173,15 +177,15 @@ void set_user_char(int character) {
         break;
 
     case 2:
-        user.front = load_bitmap(USER_CHARACTER_FRONT_2, NULL);
+        user.front = load_bitmap(USER_CHARACTER_FRONT_1, NULL);
 
-        user.back = load_bitmap(USER_CHARACTER_BACK_2, NULL);
+        user.back = load_bitmap(USER_CHARACTER_BACK_1, NULL);
 
-        user.left1 = load_bitmap(USER_CHARACTER_LEFT1_2, NULL);
-        user.left2 = load_bitmap(USER_CHARACTER_LEFT2_2, NULL);
+        user.left1 = load_bitmap(USER_CHARACTER_LEFT1_1, NULL);
+        user.left2 = load_bitmap(USER_CHARACTER_LEFT2_1, NULL);
 
-        user.right1 = load_bitmap(USER_CHARACTER_RIGHT1_2, NULL);
-        user.right2 = load_bitmap(USER_CHARACTER_RIGHT2_2, NULL);
+        user.right1 = load_bitmap(USER_CHARACTER_RIGHT1_1, NULL);
+        user.right2 = load_bitmap(USER_CHARACTER_RIGHT2_1, NULL);
         break;
 
     case 3:
@@ -202,6 +206,7 @@ void set_user_char(int character) {
     }
 }
 
+<<<<<<< HEAD
 // 좀비 이미지 업로드
 void set_zombie_char(Zombie* zombie, int level) {
     switch (level) {
@@ -248,9 +253,24 @@ void set_zombie_char(Zombie* zombie, int level) {
 }
 
 int set_barrier_img(Barrier* barrier) {
+=======
+int set_barrier_img(int level, Barrier* barrier) {
+
+    switch (level) {
+    case 1:
+        barrier->img = load_bitmap(BARRIER_LV1, NULL);
+        break;
+    case 2:
+        barrier->img = load_bitmap(BARRIER_LV2, NULL);
+        break;
+
+    case 3:
+        barrier->img = load_bitmap(BARRIER_LV3, NULL);
+        break;
+    }
+>>>>>>> 113712ec9abdcc9b74927daefeef8348ec1a53c6
 
     // 이미지 로드
-    barrier->img = load_bitmap("./img/barrier.bmp", NULL);
     
     if (!barrier->img) {
         return -1;
@@ -266,6 +286,16 @@ void set_bubbles() {
 
     if (!water_bubble || !water_explode) {
         allegro_message("Bubble images loading Error");
+    }
+}
+
+// 격자 그리기
+void draw_line() {
+    for (int i = 0; i <= MAX_x; i += 100) {
+        line(buffer, i, 0, i, 750, makecol(255, 255, 255)); // 세로선
+    }
+    for (int i = 0; i <= MAX_y; i += 75) {
+        line(buffer, 0, i, 1200, i, makecol(255, 255, 255)); // 가로선
     }
 }
 
@@ -311,6 +341,35 @@ void control_character(int level, int frame_counter, int frame_delay) {
     }
 }
 
+void print_info(int remaining_time) {
+    textprintf_ex(buffer, font, 1250, 330, makecol(255, 255, 255), -1, "HP: %d", user.hp);
+    textprintf_ex(buffer, font, 1250, 360, makecol(255, 255, 255), -1, "Speed: %d", user.speed);
+    textprintf_ex(buffer, font, 1250, 390, makecol(255, 255, 255), -1, "Max Bubble Count: %d", user.water_bubble_cnt);
+    textprintf_ex(buffer, font, 1250, 420, makecol(255, 255, 255), -1, "Left Monsters: 1");
+    textprintf_ex(buffer, font, 1250, 450, makecol(255, 255, 255), -1, "Time: %02d:%02d", remaining_time / 60, remaining_time % 60);
+}
+
+void destroy_map(int num_barriers) {
+    destroy_bitmap(buffer);
+    destroy_bitmap(user.back);
+    destroy_bitmap(user.front);
+    destroy_bitmap(user.left1);
+    destroy_bitmap(user.left2);
+    destroy_bitmap(user.right1);
+    destroy_bitmap(user.right2);
+    destroy_bitmap(background);
+    destroy_bitmap(water_bubble);
+    destroy_bitmap(water_explode);
+
+    // 장애물 이미지 해제
+    for (int i = 0; i < num_barriers; i++) {
+        destroy_bitmap(barrier[i].img);
+    }
+    free(barrier);
+}
+
+
+// 장애물과의 충돌 체크 함수
 int is_collision(int level, int x, int y) {
     int num_barriers = (level == 1) ? NUM_BARRIERS_LV1 : (level == 2) ? NUM_BARRIERS_LV2 : NUM_BARRIERS_LV3;
 
