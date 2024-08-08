@@ -23,6 +23,7 @@ void initializeBubbles();
 void setBubble(int x, int y);
 void explodeBubbles(BITMAP* buffer, int size, BITMAP* background);
 
+
 // ¹°Ç³¼± °´Ã¼µé
 WaterBubble bubbles[MAX_BUBBLES];
 int bubble_count;
