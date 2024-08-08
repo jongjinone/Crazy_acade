@@ -11,7 +11,8 @@ END_OF_FUNCTION(ticker)
 int game_start(int level, int character)
 {
     int frame_counter = 0; // 애니메이션 프레임 조정 변수
-    int frame_delay = 30; // 애니메이션 프레임 간의 딜레이 설정
+    int frame_delay = 30; // 애니메이션 프레임 간의 딜레이 설정\
+    // test 주석
 
     int num_barriers = (level == 1) ? NUM_BARRIERS_LV1 : (level == 2) ? NUM_BARRIERS_LV2 : NUM_BARRIERS_LV3;
 
