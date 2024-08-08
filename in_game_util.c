@@ -44,7 +44,6 @@ void set_barrier(int level, Barrier** barrier) {
         for (int i = 0; i < num_barriers; i++) {
             position[i] = temp_lv1[i];
         }
-
         break;
 
     case 2:
@@ -206,7 +205,6 @@ void set_user_char(int character) {
     }
 }
 
-<<<<<<< HEAD
 // 좀비 이미지 업로드
 void set_zombie_char(Zombie* zombie, int level) {
     switch (level) {
@@ -252,8 +250,6 @@ void set_zombie_char(Zombie* zombie, int level) {
     }
 }
 
-int set_barrier_img(Barrier* barrier) {
-=======
 int set_barrier_img(int level, Barrier* barrier) {
 
     switch (level) {
@@ -268,7 +264,6 @@ int set_barrier_img(int level, Barrier* barrier) {
         barrier->img = load_bitmap(BARRIER_LV3, NULL);
         break;
     }
->>>>>>> 113712ec9abdcc9b74927daefeef8348ec1a53c6
 
     // 이미지 로드
     
@@ -317,7 +312,7 @@ void control_character(int level, int frame_counter, int frame_delay) {
     if (key[KEY_LEFT]) {
         new_user_x -= 2;
         if (new_user_x < 0) new_user_x = 0; // 왼쪽 경계 체크
-        if (frame_counter % frame_delay < frame_delay / 2) {
+        if ((frame_counter % frame_delay) < (frame_delay / 2)) {
             current_image = user.left1;
         }
         else {
@@ -327,7 +322,7 @@ void control_character(int level, int frame_counter, int frame_delay) {
     if (key[KEY_RIGHT]) {
         new_user_x += 2;
         if (new_user_x > MAX_x - OBJECT_WIDTH) new_user_x = MAX_x - OBJECT_WIDTH; // 오른쪽 경계 체크
-        if (frame_counter % frame_delay < frame_delay / 2) {
+        if ((frame_counter % frame_delay) < (frame_delay / 2)) {
             current_image = user.right1;
         }
         else {
@@ -360,6 +355,7 @@ void destroy_map(int num_barriers) {
     destroy_bitmap(background);
     destroy_bitmap(water_bubble);
     destroy_bitmap(water_explode);
+    destroy_bitmap(zombies);
 
     // 장애물 이미지 해제
     for (int i = 0; i < num_barriers; i++) {

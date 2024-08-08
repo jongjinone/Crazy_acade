@@ -153,7 +153,7 @@ int set_barrier_img(int level, Barrier* barrier);
 
 void draw_line();
 
-void control_character(int frame_counter, int frame_delay);
+void control_character(int level, int frame_counter, int frame_delay);
 void print_info(int remaining_time);
 void destroy_map(int num_barriers);
 
