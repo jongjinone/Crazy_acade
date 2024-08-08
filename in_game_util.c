@@ -146,8 +146,6 @@ void set_zombie_pos(int level) {
         break;
     }
     
-    
-
     for (int i = 0; i < zombie_num; i++) {
         Zombie* zombie = &zombies[i];
         zombie->active = 1;
@@ -206,7 +204,6 @@ void set_user_char(int character) {
     }
 }
 
-<<<<<<< HEAD
 // 좀비 이미지 업로드
 void set_zombie_char(Zombie* zombie, int level) {
     switch (level) {
@@ -252,8 +249,7 @@ void set_zombie_char(Zombie* zombie, int level) {
     }
 }
 
-int set_barrier_img(Barrier* barrier) {
-=======
+
 int set_barrier_img(int level, Barrier* barrier) {
 
     switch (level) {
@@ -268,7 +264,6 @@ int set_barrier_img(int level, Barrier* barrier) {
         barrier->img = load_bitmap(BARRIER_LV3, NULL);
         break;
     }
->>>>>>> 113712ec9abdcc9b74927daefeef8348ec1a53c6
 
     // 이미지 로드
     
@@ -315,12 +310,17 @@ void control_character(int level, int frame_counter, int frame_delay) {
         current_image = user.front; // 아래쪽 방향키
     }
     if (key[KEY_LEFT]) {
+
         new_user_x -= 2;
         if (new_user_x < 0) new_user_x = 0; // 왼쪽 경계 체크
         if (frame_counter % frame_delay < frame_delay / 2) {
+            //allegro_message("boy");
+
             current_image = user.left1;
         }
         else {
+           // allegro_message("hey!");
+
             current_image = user.left2;
         }
     }
