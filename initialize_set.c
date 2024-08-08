@@ -89,6 +89,8 @@ int login_menu(BITMAP* buffer) {
 }
 
 int main_intro(BITMAP* buffer) {
+
+    BITMAP* logo = load_bitmap("./img/LOGO.bmp", NULL);
     while (1) {
         // 오프스크린 버퍼를 검은색으로 지우기
         clear_to_color(buffer, makecol(0, 0, 0));
@@ -106,6 +108,8 @@ int main_intro(BITMAP* buffer) {
             exit(0);
         }
 
+       // BITMAP* logo = load_bitmap("./img/LOGO.bmp", NULL);
+        draw_sprite(buffer, logo, 450, 50);
         // 오프스크린 버퍼의 내용을 화면으로 복사
         blit(buffer, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
 

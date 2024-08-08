@@ -1,6 +1,7 @@
 #include "allegro.h"
 #include "param.h"
 #include "new_register.h"
+#include "user_data.h"
 #include <string.h>
 #include <stdlib.h>
 
@@ -120,6 +121,14 @@ int main_new_register(BITMAP* buffer) {
             textout_centre_ex(buffer, font, "Password Confirmed", MAX_WIDTH / 2 - 80, MAX_DEPTH / 2 + 90, makecol(0, 0, 255), -1);
             blit(buffer, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
             rest(1500);
+            if (Insert(input_ID, input_PWD)) {
+                textout_centre_ex(buffer, font, "Data ALready Exist", MAX_WIDTH / 2 - 80, MAX_DEPTH / 2 + 130, makecol(0, 0, 255), -1);
+                return INVALID;
+            }
+            if (Save()) {
+                textout_centre_ex(buffer, font, "Cannot Open File", MAX_WIDTH / 2 - 80, MAX_DEPTH / 2 + 130, makecol(0, 0, 255), -1);
+                return INVALID;
+            }
             clear_to_color(buffer, makecol(0, 0, 0));
             return VALID;
         }

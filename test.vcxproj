@@ -132,23 +132,30 @@
   <ItemGroup>
     <ClCompile Include="after_login.c" />
     <ClCompile Include="bubbles.c" />
+    <ClCompile Include="game_manual.c" />
     <ClCompile Include="initialize_set.c" />
     <ClCompile Include="in_game_main.c" />
     <ClCompile Include="in_game_util.c" />
     <ClCompile Include="login.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="new_register.c" />
+    <ClCompile Include="user_data.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="after_login.h" />
     <ClInclude Include="bubbles.h" />
     <ClInclude Include="collection.h" />
+    <ClInclude Include="game_manual.h" />
     <ClInclude Include="initialize_set.h" />
     <ClInclude Include="in_game.h" />
     <ClInclude Include="in_game_main.h" />
     <ClInclude Include="login.h" />
     <ClInclude Include="new_register.h" />
     <ClInclude Include="param.h" />
+    <ClInclude Include="user_data.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="test.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
