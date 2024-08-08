@@ -33,6 +33,30 @@
 #define USER_CHARACTER_LEFT1_3 "./img/3_left1.bmp"
 #define USER_CHARACTER_LEFT2_3 "./img/3_left2.bmp"
 
+#define USER_ZOMBIE_FRONT_1 "./img/character_zombie_front.bmp"
+#define USER_ZOMBIE_BACK_1 "./img/character_zombie_back.bmp"
+#define USER_ZOMBIE_RIGHT1_1 "./img/character_zombie_right1.bmp"
+#define USER_ZOMBIE_RIGHT2_1 "./img/character_zombie_right2.bmp"
+#define USER_ZOMBIE_LEFT1_1 "./img/character_zombie_left1.bmp"
+#define USER_ZOMBIE_LEFT2_1 "./img/character_zombie_left2.bmp"
+
+#define USER_ZOMBIE_FRONT_2 "./img/character_zombie_.bmp"
+#define USER_ZOMBIE_BACK_2 "./img/character_zombie_.bmp"
+#define USER_ZOMBIE_RIGHT1_2 "./img/character_zombie_.bmp"
+#define USER_ZOMBIE_RIGHT2_2 "./img/character_zombie_.bmp"
+#define USER_ZOMBIE_LEFT1_2 "./img/character_zombie_.bmp"
+#define USER_ZOMBIE_LEFT2_2 "./img/character_zombie_.bmp"
+
+#define USER_ZOMBIE_FRONT_3 "./img/character_zombie_.bmp"
+#define USER_ZOMBIE_BACK_3 "./img/character_zombie_.bmp"
+#define USER_ZOMBIE_RIGHT1_3 "./img/character_zombie_.bmp"
+#define USER_ZOMBIE_RIGHT2_3 "./img/character_zombie_.bmp"
+#define USER_ZOMBIE_LEFT1_3 "./img/character_zombie_.bmp"
+#define USER_ZOMBIE_LEFT2_3 "./img/character_zombie_.bmp"
+
+#define MOSTER_AMOUNT_LV1 3
+#define MOSTER_AMOUNT_LV2 5
+#define MOSTER_AMOUNT_LV3 7
 
 #define USER_POSITION_X_LV1 0
 #define USER_POSITION_Y_LV1 75
@@ -55,6 +79,11 @@
 #define POSITIONS_LV2 { 6, 7, 8, 9, 10, 11, 12, 13 }
 #define POSITIONS_LV3 { 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 }
 
+// zombie 초기 위치
+#define ZOMBIE_POS_LV1 { 15, 55, 91 }
+#define ZOMBIE_POS_LV2 { 23, 67, 89, 42, 110, 0 }
+#define ZOMBIE_POS_LV3 { 12, 78, 56, 33, 102, 5, 90, 0 }
+
 // user 구조체
 typedef struct {
     BITMAP* front;
@@ -72,6 +101,22 @@ typedef struct {
     int water_bubble_cnt;     // 캐릭터의 물풍선 개수
 } User;
 
+typedef struct {
+    BITMAP* front;
+    BITMAP* back;
+    BITMAP* left1;
+    BITMAP* left2;
+
+    BITMAP* right1;
+    BITMAP* right2;
+    
+    int pos_x;
+    int pos_y;
+    int hp;       // 몬스터의 hp
+    int speed;     // 몬스터의 speed
+    int active;
+} Zombie;
+
 // barrier 구조체
 typedef struct {
     BITMAP* img;
@@ -82,6 +127,8 @@ typedef struct {
 Barrier* barrier;
 User user;
 
+Zombie zombies[10];
+
 BITMAP* background;
 BITMAP* water_bubble;
 BITMAP* water_explode;
@@ -89,11 +136,14 @@ BITMAP* buffer;
 BITMAP* current_image;
 
 void set_game(int level, int character, Barrier** barrier);
-
 void set_background(int level);
 void set_barrier(int level, Barrier** barrier);
 void set_user_pos(int level);
 void set_user_char(int character);
+void set_zombie_pos(int level);
+
+// 좀비 이미지 받아오기
+void set_zombie_char(Zombie* zombie, int character);
 void set_bubbles();
 int set_barrier_img(Barrier* barrier);
 

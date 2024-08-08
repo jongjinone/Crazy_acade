@@ -1,8 +1,9 @@
 #pragma once
 #include <time.h>
+#include <stdbool.h>
 #include "in_game.h"
 
-#define MAX_BUBBLES 1000
+#define MAX_BUBBLES 2000
 
 // ¹°Ç³¼± ±¸Á¶Ã¼
 typedef struct {
@@ -22,6 +23,7 @@ typedef struct {
 void initializeBubbles();
 void setBubble(int x, int y);
 void explodeBubbles(BITMAP* buffer, int size, BITMAP* background);
+
 
 // ¹°Ç³¼± °´Ã¼µé
 WaterBubble bubbles[MAX_BUBBLES];

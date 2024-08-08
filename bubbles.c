@@ -20,7 +20,7 @@ void setBubble(int x, int y) {
     if (bubble_count < MAX_BUBBLES) {
         WaterBubble* bubble = &bubbles[bubble_count++];
         // 캐릭터의 위치에 따라 생성되는 물풍선의 위치가 정해짐
-        // test 2
+
         bubble->x = ((x + x_size / 2 ) / x_size) * x_size;
         bubble->y = ((y + y_size / 2) / y_size) * y_size;
 

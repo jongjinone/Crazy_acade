@@ -1,10 +1,13 @@
 #include "in_game.h"
+#include <stdlib.h>
+#include <time.h>
 
 void set_game(int level, int chararcter, Barrier** barrier) {
     set_background(level);
     set_barrier(level, barrier);
     set_user_pos(level);
     set_user_char(chararcter);
+    set_zombie_pos(level);
     set_bubbles();
 }
 
@@ -113,6 +116,47 @@ void set_user_pos(int level) {
     }
 }
 
+void set_zombie_pos(int level) {
+    int zombie_num = 0;
+    int* zombie_pos = NULL;
+    switch (level) {
+    case 1:
+        zombie_num = MOSTER_AMOUNT_LV1;
+        static const int zombie_temp_lv1[] = ZOMBIE_POS_LV1;
+        zombie_pos = (int*)malloc(zombie_num * sizeof(int));
+        for (int i = 0; i < zombie_num; i++) {
+            zombie_pos[i] = zombie_temp_lv1[i];
+        }
+        break;
+    case 2:
+        zombie_num = MOSTER_AMOUNT_LV2;
+        static const int zombie_temp_lv2[] = ZOMBIE_POS_LV2;
+        zombie_pos = (int*)malloc(zombie_num * sizeof(int));
+        for (int i = 0; i < zombie_num; i++) {
+            zombie_pos[i] = zombie_temp_lv2[i];
+        }
+        break;
+    case 3:
+        zombie_num = MOSTER_AMOUNT_LV3;
+        static const int zombie_temp_lv3[] = ZOMBIE_POS_LV3;
+        zombie_pos = (int*)malloc(zombie_num * sizeof(int));
+        for (int i = 0; i < zombie_num; i++) {
+            zombie_pos[i] = zombie_temp_lv3[i];
+        }
+        break;
+    }
+    
+    
+
+    for (int i = 0; i < zombie_num; i++) {
+        Zombie* zombie = &zombies[i];
+        zombie->active = 1;
+        set_zombie_char(zombie, level);
+        zombie->pos_x = (zombie_pos[i] % 12 - 1) * 100;
+        zombie->pos_y = (zombie_pos[i] / 12) * 75;
+    }
+}
+
 // 캐릭터 이미지 로드
 void set_user_char(int character) {
     switch (character) {
@@ -154,6 +198,51 @@ void set_user_char(int character) {
     }
 
     if(!user.back || !user.front || !user.left1 || !user.left2 || !user.right1 || !user.right2) {
+        allegro_message("User images loading Error");
+    }
+}
+
+// 좀비 이미지 업로드
+void set_zombie_char(Zombie* zombie, int level) {
+    switch (level) {
+    case 1:
+        zombie->front = load_bitmap(USER_ZOMBIE_FRONT_1, NULL);
+
+        zombie->back = load_bitmap(USER_ZOMBIE_BACK_1, NULL);
+
+        zombie->left1 = load_bitmap(USER_ZOMBIE_LEFT1_1, NULL);
+        zombie->left2 = load_bitmap(USER_ZOMBIE_LEFT2_1, NULL);
+
+        zombie->right1 = load_bitmap(USER_ZOMBIE_RIGHT1_1, NULL);
+        zombie->right2 = load_bitmap(USER_ZOMBIE_RIGHT2_1, NULL);
+        break;
+
+    case 2:
+        zombie->front = load_bitmap(USER_ZOMBIE_FRONT_2, NULL);
+
+        zombie->back = load_bitmap(USER_ZOMBIE_BACK_2, NULL);
+
+        zombie->left1 = load_bitmap(USER_ZOMBIE_LEFT1_2, NULL);
+        zombie->left2 = load_bitmap(USER_ZOMBIE_LEFT2_2, NULL);
+
+        zombie->right1 = load_bitmap(USER_ZOMBIE_RIGHT1_2, NULL);
+        zombie->right2 = load_bitmap(USER_ZOMBIE_RIGHT2_2, NULL);
+        break;
+
+    case 3:
+        zombie->front = load_bitmap(USER_ZOMBIE_FRONT_3, NULL);
+
+        zombie->back = load_bitmap(USER_ZOMBIE_BACK_3, NULL);
+
+        zombie->left1 = load_bitmap(USER_ZOMBIE_LEFT1_3, NULL);
+        zombie->left2 = load_bitmap(USER_ZOMBIE_LEFT2_3, NULL);
+
+        zombie->right1 = load_bitmap(USER_ZOMBIE_RIGHT1_3, NULL);
+        zombie->right2 = load_bitmap(USER_ZOMBIE_RIGHT2_3, NULL);
+        break;
+    }
+
+    if (!user.back || !user.front || !user.left1 || !user.left2 || !user.right1 || !user.right2) {
         allegro_message("User images loading Error");
     }
 }
