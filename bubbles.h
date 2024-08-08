@@ -1,9 +1,8 @@
 #pragma once
 #include <time.h>
-#include <stdbool.h>
 #include "in_game.h"
 
-#define MAX_BUBBLES 2000
+#define MAX_BUBBLES 1000
 
 // 물풍선 구조체
 typedef struct {
