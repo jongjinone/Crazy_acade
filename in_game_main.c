@@ -1,4 +1,5 @@
 ﻿#include "in_game_main.h"
+#include "in_game.h"
 
 //김준석 바보3
 volatile int ticks = 0;
@@ -40,7 +41,7 @@ int game_start(int level, int character)
         while (ticks > 0) {
             int old_ticks = ticks;
 
-            control_character(level, frame_counter, frame_delay);
+            control_character(frame_counter, frame_delay);
 
             // 스페이스바를 눌렀을 때 위치와 생성 시간 기록
             if (key[KEY_SPACE]) {
@@ -50,10 +51,18 @@ int game_start(int level, int character)
 
             // 물풍선 터트리기 (buffer, size 넘겨줘야함)
             explodeBubbles(buffer, 3, background);
+            
 
             draw_line();
 
             draw_sprite(buffer, current_image, user.pos_x, user.pos_y); // 백 버퍼에 캐릭터 이미지 그리기
+
+            // zombie 이미지 그리기
+            for (int i = 0; i < 10; i++) {
+                if (zombies[i].active) {
+                    draw_sprite(buffer, zombies[i].front, zombies[i].pos_x, zombies[i].pos_y); // 백 버퍼에 캐릭터 이미지 그리기
+                }
+            }
 
             // 장애물 그리기
             for (int i = 0; i < num_barriers; i++) {
@@ -76,9 +85,6 @@ int game_start(int level, int character)
 
             ticks--;
             if (ticks != old_ticks) break;
-
-            // 프레임 카운터 증가
-            frame_counter++;
         }
         if (remaining_time == 0 || user.hp == 0) {
             break;
