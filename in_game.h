@@ -12,6 +12,10 @@
 #define BACKGROUND_LV2 "./img/background2.bmp"
 #define BACKGROUND_LV3 "./img/background3.bmp"
 
+#define BARRIER_LV1 "./img/barrier1.bmp"
+#define BARRIER_LV2 "./img/barrier2.bmp"
+#define BARRIER_LV3 "./img/barrier3.bmp"
+
 #define USER_CHARACTER_FRONT_1 "./img/1_front.bmp"
 #define USER_CHARACTER_BACK_1 "./img/1_back.bmp"
 #define USER_CHARACTER_RIGHT1_1 "./img/1_right1.bmp"
@@ -33,7 +37,6 @@
 #define USER_CHARACTER_LEFT1_3 "./img/3_left1.bmp"
 #define USER_CHARACTER_LEFT2_3 "./img/3_left2.bmp"
 
-
 #define USER_POSITION_X_LV1 0
 #define USER_POSITION_Y_LV1 75
 
@@ -43,16 +46,16 @@
 #define USER_POSITION_X_LV3 2
 #define USER_POSITION_Y_LV3 225
 
-#define NUM_BARRIERS_LV1 5
+#define NUM_BARRIERS_LV1 0
 #define NUM_BARRIERS_LV2 8
 #define NUM_BARRIERS_LV3 10
 
 #define OBJECT_WIDTH 100 // 객체의 가로 크기
 #define OBJECT_HEIGHT 75 // 객체의 세로 크기
 
-// barrier의 위치
-#define POSITIONS_LV1 { 10, 102, 23, 34, 65 }
-#define POSITIONS_LV2 { 6, 7, 8, 9, 10, 11, 12, 13 }
+// barrier의 위치 
+#define POSITIONS_LV1 { 0 }
+#define POSITIONS_LV2 { 14, 23, 54, 55, 66, 67, 98, 107 }
 #define POSITIONS_LV3 { 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 }
 
 // user 구조체
@@ -95,8 +98,12 @@ void set_barrier(int level, Barrier** barrier);
 void set_user_pos(int level);
 void set_user_char(int character);
 void set_bubbles();
-int set_barrier_img(Barrier* barrier);
+int set_barrier_img(int level, Barrier* barrier);
+
+void draw_line();
 
 void control_character(int frame_counter, int frame_delay);
+void print_info(int remaining_time);
+void destroy_map(int num_barriers);
 
 int is_collision(int level, int x, int y);

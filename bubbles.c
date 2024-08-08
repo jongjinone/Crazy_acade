@@ -60,8 +60,11 @@ void explodeBubbles(BITMAP* buffer, int size, BITMAP* background) {
             for (int k = 1; k <= explode->size; k++) {
                 int explode_x_size = k * x_size;
                 int explode_y_size = k * y_size;
+
+                int plus_x = (explode->x + explode_x_size <MAX_x) ? (explode->x + explode_x_size) : MAX_x-100;
+
                 draw_sprite(buffer, water_explode, explode->x - explode_x_size, explode->y);
-                draw_sprite(buffer, water_explode, explode->x + explode_x_size, explode->y);
+                draw_sprite(buffer, water_explode, plus_x, explode->y); //MAX_x
                 draw_sprite(buffer, water_explode, explode->x, explode->y - explode_y_size);
                 draw_sprite(buffer, water_explode, explode->x, explode->y + explode_y_size);
             }
