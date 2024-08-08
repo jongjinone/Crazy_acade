@@ -180,7 +180,7 @@ void set_bubbles() {
     }
 }
 
-void control_character(int frame_counter, int frame_delay) {
+void control_character(int level, int frame_counter, int frame_delay) {
     int new_user_x = user.pos_x;
     int new_user_y = user.pos_y;
 
@@ -204,7 +204,6 @@ void control_character(int frame_counter, int frame_delay) {
         else {
             current_image = user.left2;
         }
-        frame_counter++;
     }
     if (key[KEY_RIGHT]) {
         new_user_x += 2;
@@ -215,15 +214,22 @@ void control_character(int frame_counter, int frame_delay) {
         else {
             current_image = user.right2;
         }
-        frame_counter++;
     }
-    user.pos_x = new_user_x;
-    user.pos_y = new_user_y;
+    // 충돌 검사
+    if (!is_collision(level, new_user_x, new_user_y)) {
+        user.pos_x = new_user_x;
+        user.pos_y = new_user_y;
+    }
 }
 
-int check_collision(int x1, int y1, int x2, int y2) {
-    if (x1 + OBJECT_WIDTH > x2 && x1 < x2 + OBJECT_WIDTH && y1 + OBJECT_HEIGHT > y2 && y1 < y2 + OBJECT_HEIGHT) {
-        return 1;
+int is_collision(int level, int x, int y) {
+    int num_barriers = (level == 1) ? NUM_BARRIERS_LV1 : (level == 2) ? NUM_BARRIERS_LV2 : NUM_BARRIERS_LV3;
+
+    for (int i = 0; i < num_barriers; i++) {
+        if (x < barrier[i].x + OBJECT_WIDTH && x + OBJECT_WIDTH > barrier[i].x &&
+            y < barrier[i].y + OBJECT_HEIGHT && y + OBJECT_HEIGHT > barrier[i].y) {
+            return 1; // 충돌 발생
+        }
     }
-    return 0;
+    return 0; // 충돌 없음
 }

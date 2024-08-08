@@ -37,7 +37,7 @@ int game_start(int level, int character)
         while (ticks > 0) {
             int old_ticks = ticks;
 
-            control_character(frame_counter, frame_delay);
+            control_character(level, frame_counter, frame_delay);
 
             // 스페이스바를 눌렀을 때 위치와 생성 시간 기록
             if (key[KEY_SPACE]) {
@@ -68,6 +68,9 @@ int game_start(int level, int character)
 
             ticks--;
             if (ticks != old_ticks) break;
+
+            // 프레임 카운터 증가
+            frame_counter++;
         }
     }
 

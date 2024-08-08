@@ -43,15 +43,15 @@
 #define USER_POSITION_X_LV3 2
 #define USER_POSITION_Y_LV3 225
 
-#define NUM_BARRIERS_LV1 10
-#define NUM_BARRIERS_LV2 15
-#define NUM_BARRIERS_LV3 20
+#define NUM_BARRIERS_LV1 5
+#define NUM_BARRIERS_LV2 8
+#define NUM_BARRIERS_LV3 10
 
 #define OBJECT_WIDTH 100 // 객체의 가로 크기
 #define OBJECT_HEIGHT 75 // 객체의 세로 크기
 
 // barrier의 위치
-#define POSITIONS_LV1 { 1, 2, 3, 4, 15 }
+#define POSITIONS_LV1 { 10, 102, 23, 34, 65 }
 #define POSITIONS_LV2 { 6, 7, 8, 9, 10, 11, 12, 13 }
 #define POSITIONS_LV3 { 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 }
 
@@ -99,4 +99,4 @@ int set_barrier_img(Barrier* barrier);
 
 void control_character(int frame_counter, int frame_delay);
 
-int check_collision(int x1, int y1, int x2, int y2);
+int is_collision(int level, int x, int y);
