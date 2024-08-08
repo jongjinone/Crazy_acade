@@ -355,7 +355,17 @@ void destroy_map(int num_barriers) {
     destroy_bitmap(background);
     destroy_bitmap(water_bubble);
     destroy_bitmap(water_explode);
-    destroy_bitmap(zombies);
+    
+    
+
+    for (int i = 0; i < 10; i++) {
+        destroy_bitmap(zombies[i].front);
+        destroy_bitmap(zombies[i].left1);
+        destroy_bitmap(zombies[i].left2);
+        destroy_bitmap(zombies[i].right1);
+        destroy_bitmap(zombies[i].right2);
+        destroy_bitmap(zombies[i].back);
+    }
 
     // 장애물 이미지 해제
     for (int i = 0; i < num_barriers; i++) {
