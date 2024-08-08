@@ -39,6 +39,12 @@
     <ClCompile Include="new_register.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="user_data.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="game_manual.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="after_login.h">
@@ -68,5 +74,14 @@
     <ClInclude Include="param.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="user_data.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="game_manual.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="test.txt" />
   </ItemGroup>
 </Project>

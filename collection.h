@@ -9,3 +9,5 @@
 #include "new_register.h"
 #include "after_login.h"
 #include "in_game.h"
+#include "user_data.h"
+#include "game_manual.h"

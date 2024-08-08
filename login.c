@@ -1,8 +1,9 @@
 #include "allegro.h"
 #include "param.h"
 #include "login.h"
-#include "string.h"
-#include "stdlib.h"
+#include "user_data.h"
+#include <string.h>
+#include <stdlib.h>
 enum login {
     BACK,
     VALID,
@@ -106,7 +107,7 @@ int main_login(BITMAP* buffer) {
             return BACK;
         }
 
-        if (strcmp(input_ID,"a")==0) {
+        if (Search(input_ID,input_PWD) == 0) {
             textout_centre_ex(buffer, font, "VALID", MAX_WIDTH / 2-80, MAX_DEPTH/2+60, makecol(0, 0, 255), -1);
             blit(buffer, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
             rest(1500);
