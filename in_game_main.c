@@ -1,5 +1,6 @@
 ﻿#include "in_game_main.h"
 
+//김준석 바보3
 volatile int ticks = 0;
 
 void ticker() {
