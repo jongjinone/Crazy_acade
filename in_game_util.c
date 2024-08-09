@@ -243,13 +243,14 @@ void set_zombie_char(Zombie* zombie, int level) {
 
 void move_zombies(int level, int* direction, int frame_counter, int frame_delay) {
     int zombie_num = (level == 1) ? MOSTER_AMOUNT_LV1 : (level == 2) ? MOSTER_AMOUNT_LV2 : MOSTER_AMOUNT_LV3;
+    
     for (int i = 0; i < zombie_num; i++) {
         Zombie* zombie = &zombies[i];
         
         if (!zombie->active) {
             continue; // 좀비가 활성화되어 있지 않으면 건너뜀
         }
-
+        
         // 랜덤으로 이동 방향 결정
         int new_zombie_x = zombie->pos_x;
         int new_zombie_y = zombie->pos_y;
