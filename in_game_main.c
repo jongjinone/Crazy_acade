@@ -56,7 +56,7 @@ int game_start(int level, int character)
             if (sleep_time >= 0.8) {
                 // 난수 생성 후 대입
                 for (int j = 0; j < 10; j++) {
-                    direction[j] = rand() % 4; // 0: 상, 1: 하, 2: 좌, 3: 우
+                    direction[j] = rand() % 5; // 0: 상, 1: 하, 2: 좌, 3: 우
                 }
                 old_time = current_time;
             }

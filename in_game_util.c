@@ -283,7 +283,11 @@ void move_zombies(int level, int* direction, int frame_counter, int frame_delay)
             if (new_zombie_x > MAX_x - OBJECT_WIDTH) new_zombie_x = MAX_x - OBJECT_WIDTH;
             zombie->current_zombie_image = (frame_counter % frame_delay) < (frame_delay / 2) ? zombie->right1 : zombie->right2;
             break;
+        case 4:
+            zombie->current_zombie_image = zombie->front;
+            break;
         }
+        
 
         // 충돌 검사
         if (!is_collision(level, new_zombie_x, new_zombie_y)) {
