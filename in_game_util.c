@@ -164,6 +164,7 @@ void set_zombie_pos(int level) {
         zombie->pos_x = (zombie_pos[i] % 12 - 1) * 100;
         zombie->pos_y = (zombie_pos[i] / 12) * 75;
     }
+    free(zombie_pos);
 }
 
 // 캐릭터 이미지 로드
@@ -257,6 +258,54 @@ void set_zombie_char(Zombie* zombie, int level) {
 
     if (!user.back || !user.front || !user.left1 || !user.left2 || !user.right1 || !user.right2) {
         allegro_message("User images loading Error");
+    }
+}
+
+void move_zombies(int level, int* direction, int frame_counter, int frame_delay) {
+    int zombie_num = (level == 1) ? MOSTER_AMOUNT_LV1 : (level == 2) ? MOSTER_AMOUNT_LV2 : MOSTER_AMOUNT_LV3;
+    for (int i = 0; i < zombie_num; i++) {
+        Zombie* zombie = &zombies[i];
+        
+        if (!zombie->active) {
+            continue; // 좀비가 활성화되어 있지 않으면 건너뜀
+        }
+
+        // 랜덤으로 이동 방향 결정
+        int new_zombie_x = zombie->pos_x;
+        int new_zombie_y = zombie->pos_y;
+
+        switch (direction[i]) {
+        case 0: // 상
+            new_zombie_y -= 2;
+            if (new_zombie_y < 0) new_zombie_y = 0;
+            zombie->current_zombie_image = zombie->back;
+            break;
+        case 1: // 하
+            new_zombie_y += 2;
+            if (new_zombie_y > MAX_y - OBJECT_HEIGHT) new_zombie_y = MAX_y - OBJECT_HEIGHT;
+            zombie->current_zombie_image = zombie->front;
+            break;
+        case 2: // 좌
+            new_zombie_x -= 2;
+            if (new_zombie_x < 0) new_zombie_x = 0;
+            zombie->current_zombie_image = (frame_counter % frame_delay) < (frame_delay / 2) ? zombie->left1 : zombie->left2;
+            break;
+        case 3: // 우
+            new_zombie_x += 2;
+            if (new_zombie_x > MAX_x - OBJECT_WIDTH) new_zombie_x = MAX_x - OBJECT_WIDTH;
+            zombie->current_zombie_image = (frame_counter % frame_delay) < (frame_delay / 2) ? zombie->right1 : zombie->right2;
+            break;
+        case 4:
+            zombie->current_zombie_image = zombie->front;
+            break;
+        }
+        
+
+        // 충돌 검사
+        if (!is_collision(level, new_zombie_x, new_zombie_y)) {
+            zombie->pos_x = new_zombie_x;
+            zombie->pos_y = new_zombie_y;
+        }
     }
 }
 
@@ -368,7 +417,7 @@ void destroy_map(int num_barriers) {
     destroy_bitmap(water_bubble);
     destroy_bitmap(water_explode);
 
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 10; i++) {        
         destroy_bitmap(zombies[i].front);
         destroy_bitmap(zombies[i].left1);
         destroy_bitmap(zombies[i].left2);
