@@ -113,6 +113,7 @@ typedef struct {
 
     BITMAP* right1;
     BITMAP* right2;
+    BITMAP* current_zombie_image;
     
     int pos_x;
     int pos_y;
@@ -150,6 +151,7 @@ void set_zombie_pos(int level);
 void set_zombie_char(Zombie* zombie, int character);
 void set_bubbles();
 int set_barrier_img(int level, Barrier* barrier);
+void move_zombies(int level, int* direction, int frame_counter, int frame_delay);
 
 void draw_line();
 
