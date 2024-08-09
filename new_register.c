@@ -2,6 +2,7 @@
 #include "param.h"
 #include "new_register.h"
 #include "user_data.h"
+#include "music.h"
 #include <string.h>
 #include <stdlib.h>
 
@@ -101,6 +102,8 @@ int main_new_register(BITMAP* buffer) {
     int PWD_length = 0;
     int CHECK_PWD_length = 0;
 
+    SAMPLE* sample = play_music(m_login_bgm);
+
     while (1) {
 
         new_back_icon(buffer);
@@ -108,12 +111,15 @@ int main_new_register(BITMAP* buffer) {
         new_check_back(buffer);
 
         if (!New_Enter_ID(buffer, input_ID, ID_length)) {
+            off_music(sample);
             return BACK;
         }
         if (!New_Enter_PWD(buffer, input_ID, input_PWD, PWD_length)) {
+            off_music(sample);
             return BACK;
         }
         if (!New_Enter_PWD(buffer, input_ID, check_PWD, PWD_length)) {
+            off_music(sample);
             return BACK;
         }
 
@@ -123,19 +129,23 @@ int main_new_register(BITMAP* buffer) {
             rest(1500);
             if (Insert(input_ID, input_PWD)) {
                 textout_centre_ex(buffer, font, "Data ALready Exist", MAX_WIDTH / 2 - 80, MAX_DEPTH / 2 + 130, makecol(0, 0, 255), -1);
+                off_music(sample);
                 return INVALID;
             }
             if (Save()) {
                 textout_centre_ex(buffer, font, "Cannot Open File", MAX_WIDTH / 2 - 80, MAX_DEPTH / 2 + 130, makecol(0, 0, 255), -1);
+                off_music(sample);
                 return INVALID;
             }
             clear_to_color(buffer, makecol(0, 0, 0));
+            off_music(sample);
             return VALID;
         }
         else {
             textout_centre_ex(buffer, font, "Password Mismatch", MAX_WIDTH / 2 - 80, MAX_DEPTH / 2 + 90, makecol(0, 0, 255), -1);
             blit(buffer, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
             rest(1000);
+            off_music(sample);
             return INVALID;
         }
 

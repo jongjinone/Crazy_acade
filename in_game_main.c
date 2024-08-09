@@ -1,6 +1,6 @@
 ﻿#include "in_game_main.h"
 #include "in_game.h"
-
+#include "music.h"
 volatile int ticks = 0;
 
 void ticker() {
@@ -25,6 +25,8 @@ int game_start(int level, int character)
     LOCK_VARIABLE(ticks);
     install_int_ex(ticker, BPS_TO_TIMER(60)); // 60 ticks per second
 
+    SAMPLE* sample = action_music(m_put_balloon); ;
+    
     // 백 버퍼
     buffer = create_bitmap(WHOLE_x, WHOLE_y);
 
@@ -46,11 +48,13 @@ int game_start(int level, int character)
             // 스페이스바를 눌렀을 때 위치와 생성 시간 기록
             if (key[KEY_SPACE]) {
                 setBubble(user.pos_x, user.pos_y);
+                sample = action_music(m_put_balloon);
+                key[KEY_SPACE] = 0;
             }
             draw_sprite(buffer, background, 0, 0);
 
             // 물풍선 터트리기 (buffer, size 넘겨줘야함)
-            explodeBubbles(buffer, 3, background);
+            explodeBubbles(buffer, 3, background ,sample);
             
 
             draw_line();
@@ -93,6 +97,6 @@ int game_start(int level, int character)
     }
 
     destroy_map(num_barriers);
-
+    off_music(sample);
     return 0;
 }

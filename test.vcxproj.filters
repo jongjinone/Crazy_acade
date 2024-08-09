@@ -45,6 +45,9 @@
     <ClCompile Include="game_manual.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="music.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="after_login.h">
@@ -78,6 +81,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="game_manual.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="music.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

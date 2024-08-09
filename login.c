@@ -1,9 +1,4 @@
-#include "allegro.h"
-#include "param.h"
 #include "login.h"
-#include "user_data.h"
-#include <string.h>
-#include <stdlib.h>
 enum login {
     BACK,
     VALID,
@@ -89,11 +84,12 @@ int check_back(BITMAP* buffer) {
         return BACK;
     }
 }
-int main_login(BITMAP* buffer) {
+int main_login(BITMAP* buffer,USER_DATA** target_user_p) {
     char input_ID[20] = "";
     char input_PWD[20] = "";
     int ID_length = 0;
     int PWD_length = 0;
+    SAMPLE* sample = play_music(m_login_bgm);
     while (1) {
 
         back_icon(buffer);
@@ -101,23 +97,27 @@ int main_login(BITMAP* buffer) {
         check_back(buffer);
         
         if (!Enter_ID(buffer, input_ID, ID_length)){
+            off_music(sample);
             return BACK;
         }
         if (!Enter_PWD(buffer, input_ID, input_PWD, PWD_length)) {
+            off_music(sample);
             return BACK;
         }
 
-        if (Search(input_ID,input_PWD) == 0) {
+        if (Search(input_ID,input_PWD,target_user_p) == 0) {
             textout_centre_ex(buffer, font, "VALID", MAX_WIDTH / 2-80, MAX_DEPTH/2+60, makecol(0, 0, 255), -1);
             blit(buffer, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
             rest(1500);
             clear_to_color(buffer, makecol(0, 0, 0));
+            off_music(sample);
             return VALID;
         }
         else {
             textout_centre_ex(buffer, font, "INVALID", MAX_WIDTH / 2-80, MAX_DEPTH/2+60, makecol(0, 0, 255), -1);
             blit(buffer, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
             rest(1000);
+            off_music(sample);
             return INVALID;
         }
 

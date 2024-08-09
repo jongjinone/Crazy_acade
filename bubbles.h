@@ -21,7 +21,7 @@ typedef struct {
 
 void initializeBubbles();
 void setBubble(int x, int y);
-void explodeBubbles(BITMAP* buffer, int size, BITMAP* background);
+void explodeBubbles(BITMAP* buffer, int size, BITMAP* background,SAMPLE* sample);
 
 
 // ¹°Ç³¼± °´Ã¼µé

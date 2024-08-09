@@ -59,7 +59,7 @@ void printall_user_data(BITMAP* buffer)
 }
 	
 	
-int Search(char* ID, char* pwd)
+int Search(char* ID, char* pwd,USER_DATA** target_user_p)
 {
 	int cnt = 0;
 	USER_DATA* ptr = head;
@@ -73,6 +73,7 @@ int Search(char* ID, char* pwd)
 		if (!strcmp(ptr->ID, ID) && !strcmp(ptr->pwd,pwd))
 		{
 			cnt++;
+			*target_user_p = ptr;
 			break;
 		}
 		ptr = ptr->next;

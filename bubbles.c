@@ -1,6 +1,7 @@
 #include "bubbles.h"
 #include "in_game.h"
 #include <allegro.h>
+#include "music.h"
 
 // x, y ÁÂÇ¥ ÇÑÄ­ÀÇ Å©±â
 #define x_size 100
@@ -31,12 +32,13 @@ void setBubble(int x, int y) {
     }
 }
 
-void explodeBubbles(BITMAP* buffer, int size, BITMAP* background) {
+void explodeBubbles(BITMAP* buffer, int size, BITMAP* background,SAMPLE* sample) {
     for (int i = 0; i < bubble_count; i++) {
         WaterBubble* bubble = &bubbles[i];
         if (bubble->active) {
             if (difftime(time(NULL), bubble->create_time) > 2) {
                 // 2ÃÊ ÈÄ ¹°Ç³¼± »ç¶óÁö°í Æø¹ß °´Ã¼ È°¼ºÈ­
+                sample = action_music(m_pop_balloon);
                 bubble->active = 0;
                 WaterExplode* explode = &explodes[explode_count++];
                 explode->x = bubble->x;

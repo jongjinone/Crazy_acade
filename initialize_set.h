@@ -1,5 +1,7 @@
 #pragma once
 #include <allegro.h>
+#include "param.h"
+#include "music.h"
 
 void initialize_window(void);
 void draw_rec_login(BITMAP* buffer);
