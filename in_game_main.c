@@ -21,7 +21,6 @@ int game_start(int level, int character)
     int direction[10];
     clock_t old_time = 0;
     clock_t current_time = clock();
-    
 
     int num_barriers = (level == 1) ? NUM_BARRIERS_LV1 : (level == 2) ? NUM_BARRIERS_LV2 : NUM_BARRIERS_LV3;
 
@@ -56,7 +55,6 @@ int game_start(int level, int character)
 
             control_character(level, frame_counter, frame_delay);
             frame_counter++;
-
             
             // 좀비 이동
             current_time = clock();
@@ -79,8 +77,11 @@ int game_start(int level, int character)
             draw_sprite(buffer, background, 0, 0);
 
             // 물풍선 터트리기 (buffer, size 넘겨줘야함)
-            explodeBubbles(buffer, 3, background ,sample);
-            
+            int is_cleared = 0;
+            is_cleared = explodeBubbles(buffer, 3, background, sample, level);
+            if (is_cleared > 0) {
+                goto next_stage;
+            }
 
             draw_line();
 
@@ -119,17 +120,22 @@ int game_start(int level, int character)
             break;
         }
     }
+
     destroy_sample(sample);
     
-    SAMPLE* sample1 = action_music(m_clear);   
-   // off_music(sample);
+    SAMPLE* sample_lose = action_music(m_lose);   
+    rest(2000);
+
+    destroy_sample(sample_lose);
+    destroy_map(num_barriers);
+    return 0;
+
+next_stage:
+    SAMPLE* sample2 = action_music(m_clear);
     rest(6000);
 
-
-    stop_sample(sample1);
-    destroy_sample(sample1);
-    //off_music(sample);
+    destroy_sample(sample2);
     destroy_map(num_barriers);
-
-    return 0;
+    off_music(sample);
+    return level;
 }
