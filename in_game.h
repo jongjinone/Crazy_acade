@@ -13,29 +13,19 @@
 #define BACKGROUND_LV3 "./img/background3.bmp"
 
 #define BARRIER_LV1 "./img/barrier1.bmp"
-#define BARRIER_LV2 "./img/barrier2.bmp"
-#define BARRIER_LV3 "./img/barrier3.bmp"
 
 #define USER_CHARACTER_FRONT_1 "./img/1_front.bmp"
+#define USER_CHARACTER_FRONT_ATTACKED_1 "./img/1_front_attacked.bmp"
 #define USER_CHARACTER_BACK_1 "./img/1_back.bmp"
+#define USER_CHARACTER_BACK_ATTACKED_1 "./img/1_back_attacked.bmp"
 #define USER_CHARACTER_RIGHT1_1 "./img/1_right1.bmp"
+#define USER_CHARACTER_RIGHT1_ATTACKED_1 "./img/1_right1_attacked.bmp"
 #define USER_CHARACTER_RIGHT2_1 "./img/1_right2.bmp"
+#define USER_CHARACTER_RIGHT2_ATTACKED_1 "./img/1_right2_attacked.bmp"
 #define USER_CHARACTER_LEFT1_1 "./img/1_left1.bmp"
+#define USER_CHARACTER_LEFT1_ATTACKED_1 "./img/1_left1_attacked.bmp"
 #define USER_CHARACTER_LEFT2_1 "./img/1_left2.bmp"
-
-#define USER_CHARACTER_FRONT_2 "./img/2_front.bmp"
-#define USER_CHARACTER_BACK_2 "./img/2_back.bmp"
-#define USER_CHARACTER_RIGHT1_2 "./img/2_right1.bmp"
-#define USER_CHARACTER_RIGHT2_2 "./img/2_right2.bmp"
-#define USER_CHARACTER_LEFT1_2 "./img/2_left1.bmp"
-#define USER_CHARACTER_LEFT2_2 "./img/2_left2.bmp"
-
-#define USER_CHARACTER_FRONT_3 "./img/3_front.bmp"
-#define USER_CHARACTER_BACK_3 "./img/3_back.bmp"
-#define USER_CHARACTER_RIGHT1_3 "./img/3_right1.bmp"
-#define USER_CHARACTER_RIGHT2_3 "./img/3_right2.bmp"
-#define USER_CHARACTER_LEFT1_3 "./img/3_left1.bmp"
-#define USER_CHARACTER_LEFT2_3 "./img/3_left2.bmp"
+#define USER_CHARACTER_LEFT2_ATTACKED_1 "./img/1_left2_attacked.bmp"
 
 #define USER_ZOMBIE_FRONT_1 "./img/character_zombie_front.bmp"
 #define USER_ZOMBIE_BACK_1 "./img/character_zombie_back.bmp"
@@ -75,7 +65,8 @@
 #define NUM_BARRIERS_LV2 8
 #define NUM_BARRIERS_LV3 10
 
-#define USER_ATTACK 3
+#define USER_ATTACK 3 
+#define USER_HP 200
 
 #define OBJECT_WIDTH 100 // 객체의 가로 크기
 #define OBJECT_HEIGHT 75 // 객체의 세로 크기
@@ -95,6 +86,11 @@
 #define ZOMBIE_SPEED_LV2 2
 #define ZOMBIE_SPEED_LV3 3
 
+//zombie 초기 attack
+#define ZOMBIE_ATTACK_LV1 1
+#define ZOMBIE_ATTACK_LV2 2
+#define ZOMBIE_ATTACK_LV3 3
+
 // zombie 초기 위치
 #define ZOMBIE_POS_LV1 { 15, 55, 91 }
 #define ZOMBIE_POS_LV2 { 23, 67, 89, 42, 110, 0 }
@@ -103,12 +99,17 @@
 // user 구조체
 typedef struct {
     BITMAP* front;
+    BITMAP* front_attacked;
     BITMAP* back;
+    BITMAP* back_attacked;
     BITMAP* left1;
+    BITMAP* left1_attacked;
     BITMAP* left2;
-
+    BITMAP* left2_attacked;
     BITMAP* right1;
+    BITMAP* right1_attacked;
     BITMAP* right2;
+    BITMAP* right2_attacked;
 
     int pos_x; 
     int pos_y;
@@ -174,3 +175,4 @@ void print_info(int remaining_time);
 void destroy_map(int num_barriers);
 
 int is_collision(int level, int x, int y);
+int count_zombie();

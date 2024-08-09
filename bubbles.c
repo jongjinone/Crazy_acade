@@ -28,11 +28,10 @@ void setBubble(int x, int y) {
         bubble->active = 1;
 
         bubble->create_time = time(NULL);
-      //  rest(10); // 발사 간격 조절
     }
 }
 
-void explodeBubbles(BITMAP* buffer, int size, BITMAP* background,SAMPLE* sample) {
+void explodeBubbles(BITMAP* buffer, int size, BITMAP* background,SAMPLE* sample, int level) {
     for (int i = 0; i < bubble_count; i++) {
         WaterBubble* bubble = &bubbles[i];
         if (bubble->active) {
@@ -77,7 +76,9 @@ void explodeBubbles(BITMAP* buffer, int size, BITMAP* background,SAMPLE* sample)
         int condition1;
         int condition2;
 
-        for (int j = 0; j < MOSTER_AMOUNT_LV1; j++) {
+        int num_zombies = (level == 1) ? MOSTER_AMOUNT_LV1 : (level == 2 ? MOSTER_AMOUNT_LV2 : MOSTER_AMOUNT_LV3);
+
+        for (int j = 0; j < num_zombies; j++) {
             condition1 = explode->x - size * x_size < zombies[j].pos_x+50 && zombies[j].pos_x+50 < explode->x + (size+1) * x_size &&
                 explode->y < zombies[j].pos_y+37 && zombies[j].pos_y+37 < explode->y + y_size;
 

@@ -153,7 +153,6 @@ void set_zombie_pos(int level) {
         }
         break;
     }
-
     
     for (int i = 0; i < zombie_num; i++) {
         Zombie* zombie = &zombies[i];
@@ -169,47 +168,27 @@ void set_zombie_pos(int level) {
 
 // 캐릭터 이미지 로드
 void set_user_char(int character) {
-    user.hp = 10;
+    user.hp = USER_HP;
     user.speed = 1;
     user.water_bubble_cnt = 1;
 
-    switch (character) {
-    case 1:
-        user.front = load_bitmap(USER_CHARACTER_FRONT_1, NULL);
+    user.front = load_bitmap(USER_CHARACTER_FRONT_1, NULL);
+    user.front_attacked = load_bitmap(USER_CHARACTER_FRONT_ATTACKED_1, NULL);
         
-        user.back = load_bitmap(USER_CHARACTER_BACK_1, NULL);
+    user.back = load_bitmap(USER_CHARACTER_BACK_1, NULL);
+    user.back_attacked = load_bitmap(USER_CHARACTER_BACK_ATTACKED_1, NULL);
 
-        user.left1 = load_bitmap(USER_CHARACTER_LEFT1_1, NULL);
-        user.left2 = load_bitmap(USER_CHARACTER_LEFT2_1, NULL);
+    user.left1 = load_bitmap(USER_CHARACTER_LEFT1_1, NULL);
+    user.left1_attacked = load_bitmap(USER_CHARACTER_LEFT1_ATTACKED_1, NULL);
 
-        user.right1 = load_bitmap(USER_CHARACTER_RIGHT1_1, NULL);
-        user.right2 = load_bitmap(USER_CHARACTER_RIGHT2_1, NULL);
-        break;
+    user.left2 = load_bitmap(USER_CHARACTER_LEFT2_1, NULL);
+    user.left2_attacked = load_bitmap(USER_CHARACTER_LEFT2_ATTACKED_1, NULL);
 
-    case 2:
-        user.front = load_bitmap(USER_CHARACTER_FRONT_1, NULL);
+    user.right1 = load_bitmap(USER_CHARACTER_RIGHT1_1, NULL);
+    user.right1_attacked = load_bitmap(USER_CHARACTER_RIGHT1_ATTACKED_1, NULL);
 
-        user.back = load_bitmap(USER_CHARACTER_BACK_1, NULL);
-
-        user.left1 = load_bitmap(USER_CHARACTER_LEFT1_1, NULL);
-        user.left2 = load_bitmap(USER_CHARACTER_LEFT2_1, NULL);
-
-        user.right1 = load_bitmap(USER_CHARACTER_RIGHT1_1, NULL);
-        user.right2 = load_bitmap(USER_CHARACTER_RIGHT2_1, NULL);
-        break;
-
-    case 3:
-        user.front = load_bitmap(USER_CHARACTER_FRONT_3, NULL);
-
-        user.back = load_bitmap(USER_CHARACTER_BACK_3, NULL);
-
-        user.left1 = load_bitmap(USER_CHARACTER_LEFT1_3, NULL);
-        user.left2 = load_bitmap(USER_CHARACTER_LEFT2_3, NULL);
-
-        user.right1 = load_bitmap(USER_CHARACTER_RIGHT1_3, NULL);
-        user.right2 = load_bitmap(USER_CHARACTER_RIGHT2_3, NULL);
-        break;
-    }
+    user.right2 = load_bitmap(USER_CHARACTER_RIGHT2_1, NULL);
+    user.right2_attacked = load_bitmap(USER_CHARACTER_RIGHT2_ATTACKED_1, NULL);
 
     if(!user.back || !user.front || !user.left1 || !user.left2 || !user.right1 || !user.right2) {
         allegro_message("User images loading Error");
@@ -310,22 +289,8 @@ void move_zombies(int level, int* direction, int frame_counter, int frame_delay)
 }
 
 int set_barrier_img(int level, Barrier* barrier) {
+    barrier->img = load_bitmap(BARRIER_LV1, NULL);
 
-    switch (level) {
-    case 1:
-        barrier->img = load_bitmap(BARRIER_LV1, NULL);
-        break;
-    case 2:
-        barrier->img = load_bitmap(BARRIER_LV2, NULL);
-        break;
-
-    case 3:
-        barrier->img = load_bitmap(BARRIER_LV3, NULL);
-        break;
-    }
-
-    // 이미지 로드
-    
     if (!barrier->img) {
         return -1;
     }
@@ -356,28 +321,64 @@ void draw_line() {
 void control_character(int level, int frame_counter, int frame_delay) {
     int new_user_x = user.pos_x;
     int new_user_y = user.pos_y;
+    int num_zombies = (level == 1) ? MOSTER_AMOUNT_LV1 : (level == 2) ? MOSTER_AMOUNT_LV2 : MOSTER_AMOUNT_LV3;
+    int zombie_attack = (level == 1) ? ZOMBIE_ATTACK_LV1 : (level == 2) ? ZOMBIE_ATTACK_LV2 : ZOMBIE_ATTACK_LV3;
 
     // 이동 처리
     if (key[KEY_UP]) {
         new_user_y -= 2;
         if (new_user_y < 0) new_user_y = 0; // 위쪽 경계 체크
         current_image = user.back; // 위쪽 방향키
+        for (int i = 0; i < num_zombies; i++) {
+            if (zombies[i].active && abs(abs(new_user_x) - abs(zombies[i].pos_x)) < OBJECT_WIDTH && abs(abs(new_user_y) - abs(zombies[i].pos_y)) < OBJECT_HEIGHT) {
+                user.hp -= zombie_attack;
+                current_image = user.back_attacked;
+                if (user.hp <= 0) {
+                    user.hp = 0;
+                }
+            }
+        }
     }
     if (key[KEY_DOWN]) {
         new_user_y += 2;
         if (new_user_y > MAX_y - OBJECT_HEIGHT) new_user_y = MAX_y - OBJECT_HEIGHT; // 아래쪽 경계 체크
         current_image = user.front; // 아래쪽 방향키
+        for (int i = 0; i < num_zombies; i++) {
+            if (zombies[i].active && abs(abs(new_user_x) - abs(zombies[i].pos_x)) < OBJECT_WIDTH && abs(abs(new_user_y) - abs(zombies[i].pos_y)) < OBJECT_HEIGHT) {
+                user.hp -= zombie_attack;
+                current_image = user.front_attacked;
+                if (user.hp <= 0) {
+                    user.hp = 0;
+                }
+            }
+        }
     }
     if (key[KEY_LEFT]) {
-
         new_user_x -= 2;
         if (new_user_x < 0) new_user_x = 0; // 왼쪽 경계 체크
         if (frame_counter % frame_delay < frame_delay / 2) {
             current_image = user.left1;
+            for (int i = 0; i < num_zombies; i++) {
+                if (zombies[i].active && abs(abs(new_user_x) - abs(zombies[i].pos_x)) < OBJECT_WIDTH && abs(abs(new_user_y) - abs(zombies[i].pos_y)) < OBJECT_HEIGHT) {
+                    user.hp -= zombie_attack;
+                    current_image = user.left1_attacked;
+                    if (user.hp <= 0) {
+                        user.hp = 0;
+                    }
+                }
+            }
         }
         else {
-
             current_image = user.left2;
+            for (int i = 0; i < num_zombies; i++) {
+                if (zombies[i].active && abs(abs(new_user_x) - abs(zombies[i].pos_x)) < OBJECT_WIDTH && abs(abs(new_user_y) - abs(zombies[i].pos_y)) < OBJECT_HEIGHT) {
+                    user.hp -= zombie_attack;
+                    current_image = user.left2_attacked;
+                    if (user.hp <= 0) {
+                        user.hp = 0;
+                    }
+                }
+            }
         }
     }
     if (key[KEY_RIGHT]) {
@@ -385,9 +386,27 @@ void control_character(int level, int frame_counter, int frame_delay) {
         if (new_user_x > MAX_x - OBJECT_WIDTH) new_user_x = MAX_x - OBJECT_WIDTH; // 오른쪽 경계 체크
         if ((frame_counter % frame_delay) < (frame_delay / 2)) {
             current_image = user.right1;
+            for (int i = 0; i < num_zombies; i++) {
+                if (zombies[i].active && abs(abs(new_user_x) - abs(zombies[i].pos_x)) < OBJECT_WIDTH && abs(abs(new_user_y) - abs(zombies[i].pos_y)) < OBJECT_HEIGHT) {
+                    user.hp -= zombie_attack;
+                    current_image = user.right1_attacked;
+                    if (user.hp <= 0) {
+                        user.hp = 0;
+                    }
+                }
+            }
         }
         else {
             current_image = user.right2;
+            for (int i = 0; i < num_zombies; i++) {
+                if (zombies[i].active && abs(abs(new_user_x) - abs(zombies[i].pos_x)) < OBJECT_WIDTH && abs(abs(new_user_y) - abs(zombies[i].pos_y)) < OBJECT_HEIGHT) {
+                    user.hp -= zombie_attack;
+                    current_image = user.right2_attacked;
+                    if (user.hp <= 0) {
+                        user.hp = 0;
+                    }
+                }
+            }
         }
     }
     // 충돌 검사
@@ -395,14 +414,15 @@ void control_character(int level, int frame_counter, int frame_delay) {
         user.pos_x = new_user_x;
         user.pos_y = new_user_y;
     }
+    
 }
 
 void print_info(int remaining_time) {
-    textprintf_ex(buffer, font, 1250, 330, makecol(255, 255, 255), -1, "HP: %d", user.hp);
-    textprintf_ex(buffer, font, 1250, 360, makecol(255, 255, 255), -1, "Speed: %d", user.speed);
-    textprintf_ex(buffer, font, 1250, 390, makecol(255, 255, 255), -1, "Max Bubble Count: %d", user.water_bubble_cnt);
-    textprintf_ex(buffer, font, 1250, 420, makecol(255, 255, 255), -1, "Left Monsters: 1");
-    textprintf_ex(buffer, font, 1250, 450, makecol(255, 255, 255), -1, "Time: %02d:%02d", remaining_time / 60, remaining_time % 60);
+    textprintf_ex(buffer, font, 1250, 330, makecol(255, 0, 0), -1, "HP: %d", user.hp);
+    //textprintf_ex(buffer, font, 1250, 360, makecol(255, 255, 255), -1, "Speed: %d", user.speed);
+    textprintf_ex(buffer, font, 1250, 360, makecol(255, 255, 255), -1, "Max Bubble Count: %d", user.water_bubble_cnt);
+    textprintf_ex(buffer, font, 1250, 390, makecol(255, 255, 255), -1, "Left Monsters: %d", count_zombie());
+    textprintf_ex(buffer, font, 1250, 420, makecol(255, 255, 255), -1, "Time: %02d:%02d", remaining_time / 60, remaining_time % 60);
 }
 
 void destroy_map(int num_barriers) {
@@ -433,7 +453,6 @@ void destroy_map(int num_barriers) {
     free(barrier);
 }
 
-
 // 장애물과의 충돌 체크 함수
 int is_collision(int level, int x, int y) {
     int num_barriers = (level == 1) ? NUM_BARRIERS_LV1 : (level == 2) ? NUM_BARRIERS_LV2 : NUM_BARRIERS_LV3;
@@ -445,4 +464,14 @@ int is_collision(int level, int x, int y) {
         }
     }
     return 0; // 충돌 없음
+}
+
+int count_zombie() {
+    int cnt=0;
+    for (int i = 0; i < 10; i++) {
+        if (zombies[i].active == 1) {
+            cnt += 1;
+        }
+    }
+    return cnt;
 }

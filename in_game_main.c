@@ -21,7 +21,6 @@ int game_start(int level, int character)
     int direction[10];
     clock_t old_time = 0;
     clock_t current_time = clock();
-    
 
     int num_barriers = (level == 1) ? NUM_BARRIERS_LV1 : (level == 2) ? NUM_BARRIERS_LV2 : NUM_BARRIERS_LV3;
 
@@ -51,7 +50,6 @@ int game_start(int level, int character)
 
             control_character(level, frame_counter, frame_delay);
             frame_counter++;
-
             
             // 좀비 이동
             current_time = clock();
@@ -74,8 +72,7 @@ int game_start(int level, int character)
             draw_sprite(buffer, background, 0, 0);
 
             // 물풍선 터트리기 (buffer, size 넘겨줘야함)
-            explodeBubbles(buffer, 3, background ,sample);
-            
+            explodeBubbles(buffer, 3, background ,sample, level);
 
             draw_line();
 
