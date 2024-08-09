@@ -163,6 +163,7 @@ void set_zombie_pos(int level) {
         zombie->pos_x = (zombie_pos[i] % 12 - 1) * 100;
         zombie->pos_y = (zombie_pos[i] / 12) * 75;
     }
+
     free(zombie_pos);
 }
 

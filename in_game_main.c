@@ -72,7 +72,11 @@ int game_start(int level, int character)
             draw_sprite(buffer, background, 0, 0);
 
             // 물풍선 터트리기 (buffer, size 넘겨줘야함)
-            explodeBubbles(buffer, 3, background ,sample, level);
+            int is_cleared = 0;
+            is_cleared = explodeBubbles(buffer, 3, background, sample, level);
+            if (is_cleared > 0) {
+                goto next_stage;
+            }
 
             draw_line();
 
@@ -111,8 +115,12 @@ int game_start(int level, int character)
             break;
         }
     }
-
     destroy_map(num_barriers);
     off_music(sample);
     return 0;
+
+next_stage:
+    destroy_map(num_barriers);
+    off_music(sample);
+    return level;
 }
