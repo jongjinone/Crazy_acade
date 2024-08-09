@@ -1,6 +1,7 @@
 #include "bubbles.h"
 #include "in_game.h"
 #include <allegro.h>
+#include <time.h>
 
 // x, y 좌표 한칸의 크기
 #define x_size 100
@@ -26,16 +27,18 @@ void setBubble(int x, int y) {
 
         bubble->active = 1;
 
-        bubble->create_time = time(NULL);
+        bubble->create_time = clock();
       //  rest(10); // 발사 간격 조절
     }
 }
 
 void explodeBubbles(BITMAP* buffer, int size, BITMAP* background) {
+    double current_time = clock();
     for (int i = 0; i < bubble_count; i++) {
         WaterBubble* bubble = &bubbles[i];
         if (bubble->active) {
-            if (difftime(time(NULL), bubble->create_time) > 2) {
+            double bubble_time_diff = (double)(current_time - bubble->create_time) / CLOCKS_PER_SEC;
+            if (bubble_time_diff > 2) {
                 // 2초 후 물풍선 사라지고 폭발 객체 활성화
                 bubble->active = 0;
                 WaterExplode* explode = &explodes[explode_count++];
@@ -43,7 +46,7 @@ void explodeBubbles(BITMAP* buffer, int size, BITMAP* background) {
                 explode->y = bubble->y;
                 explode->size = size; // 폭발 크기 설정
                 explode->active = 1;
-                explode->explode_time = time(NULL);
+                explode->explode_time = clock();
             }
         }
     }
@@ -70,7 +73,8 @@ void explodeBubbles(BITMAP* buffer, int size, BITMAP* background) {
             }
 
             // 폭발 애니메이션 지속 시간
-            if (difftime(time(NULL), explode->explode_time) > 0.7) {
+            double explode_time_diff = (double)(current_time - explode->explode_time) / CLOCKS_PER_SEC;
+            if (explode_time_diff > 0.8) {
                 explode->active = 0;
             }
         }
