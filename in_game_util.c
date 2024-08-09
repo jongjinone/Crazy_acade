@@ -117,10 +117,15 @@ void set_user_pos(int level) {
 
 void set_zombie_pos(int level) {
     int zombie_num = 0;
+    int zombie_hp = 0;
+    int zombie_speed = 0;
     int* zombie_pos = NULL;
+    
     switch (level) {
     case 1:
         zombie_num = MOSTER_AMOUNT_LV1;
+        zombie_hp = ZOMBIE_HP_LV1;
+        zombie_speed = ZOMBIE_SPEED_LV1;
         static const int zombie_temp_lv1[] = ZOMBIE_POS_LV1;
         zombie_pos = (int*)malloc(zombie_num * sizeof(int));
         for (int i = 0; i < zombie_num; i++) {
@@ -129,6 +134,8 @@ void set_zombie_pos(int level) {
         break;
     case 2:
         zombie_num = MOSTER_AMOUNT_LV2;
+        zombie_hp = ZOMBIE_HP_LV2;
+        zombie_speed = ZOMBIE_SPEED_LV2;
         static const int zombie_temp_lv2[] = ZOMBIE_POS_LV2;
         zombie_pos = (int*)malloc(zombie_num * sizeof(int));
         for (int i = 0; i < zombie_num; i++) {
@@ -137,6 +144,8 @@ void set_zombie_pos(int level) {
         break;
     case 3:
         zombie_num = MOSTER_AMOUNT_LV3;
+        zombie_hp = ZOMBIE_HP_LV3;
+        zombie_speed = ZOMBIE_SPEED_LV3;
         static const int zombie_temp_lv3[] = ZOMBIE_POS_LV3;
         zombie_pos = (int*)malloc(zombie_num * sizeof(int));
         for (int i = 0; i < zombie_num; i++) {
@@ -144,11 +153,14 @@ void set_zombie_pos(int level) {
         }
         break;
     }
+
     
     for (int i = 0; i < zombie_num; i++) {
         Zombie* zombie = &zombies[i];
         zombie->active = 1;
         set_zombie_char(zombie, level);
+        zombie->hp = zombie_hp;
+        zombie->speed = zombie_speed;
         zombie->pos_x = (zombie_pos[i] % 12 - 1) * 100;
         zombie->pos_y = (zombie_pos[i] / 12) * 75;
     }
@@ -355,7 +367,15 @@ void destroy_map(int num_barriers) {
     destroy_bitmap(background);
     destroy_bitmap(water_bubble);
     destroy_bitmap(water_explode);
-    destroy_bitmap(zombies);
+
+    for (int i = 0; i < 10; i++) {
+        destroy_bitmap(zombies[i].front);
+        destroy_bitmap(zombies[i].left1);
+        destroy_bitmap(zombies[i].left2);
+        destroy_bitmap(zombies[i].right1);
+        destroy_bitmap(zombies[i].right2);
+        destroy_bitmap(zombies[i].back);
+    }
 
     // 장애물 이미지 해제
     for (int i = 0; i < num_barriers; i++) {
