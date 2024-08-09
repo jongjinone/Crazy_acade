@@ -63,19 +63,36 @@ void explodeBubbles(BITMAP* buffer, int size, BITMAP* background,SAMPLE* sample)
                 int explode_x_size = k * x_size;
                 int explode_y_size = k * y_size;
 
-                int plus_x = (explode->x + explode_x_size <MAX_x) ? (explode->x + explode_x_size) : MAX_x-100;
-
                 draw_sprite(buffer, water_explode, explode->x - explode_x_size, explode->y);
-                draw_sprite(buffer, water_explode, plus_x, explode->y); //MAX_x
+                draw_sprite(buffer, water_explode, (explode->x + explode_x_size < MAX_x) ? (explode->x + explode_x_size) : MAX_x - 100, explode->y);
                 draw_sprite(buffer, water_explode, explode->x, explode->y - explode_y_size);
                 draw_sprite(buffer, water_explode, explode->x, explode->y + explode_y_size);
-            }
 
+            }
             // 폭발 애니메이션 지속 시간
             if (difftime(time(NULL), explode->explode_time) > 0.7) {
                 explode->active = 0;
             }
         }
+        int condition1;
+        int condition2;
+
+        for (int j = 0; j < MOSTER_AMOUNT_LV1; j++) {
+            condition1 = explode->x - size * x_size < zombies[j].pos_x+50 && zombies[j].pos_x+50 < explode->x + (size+1) * x_size &&
+                explode->y < zombies[j].pos_y+37 && zombies[j].pos_y+37 < explode->y + y_size;
+
+            condition2 = explode->y - size * y_size < zombies[j].pos_y+37 && zombies[j].pos_y+37 < explode->y + (size+1) * y_size &&
+                explode->x < zombies[j].pos_x+50 && zombies[j].pos_x+50 < explode->x + x_size;
+
+            if (condition1 || condition2) {
+                zombies[j].hp -= USER_ATTACK;
+                if (zombies[j].hp <= 0) {
+                    zombies[j].hp = 0;
+                    zombies[j].active = 0;
+                }
+            }
+        }
+        
     }
 
     // 활성화된 물풍선 그리기

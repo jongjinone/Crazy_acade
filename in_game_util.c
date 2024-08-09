@@ -117,10 +117,15 @@ void set_user_pos(int level) {
 
 void set_zombie_pos(int level) {
     int zombie_num = 0;
+    int zombie_hp = 0;
+    int zombie_speed = 0;
     int* zombie_pos = NULL;
+    
     switch (level) {
     case 1:
         zombie_num = MOSTER_AMOUNT_LV1;
+        zombie_hp = ZOMBIE_HP_LV1;
+        zombie_speed = ZOMBIE_SPEED_LV1;
         static const int zombie_temp_lv1[] = ZOMBIE_POS_LV1;
         zombie_pos = (int*)malloc(zombie_num * sizeof(int));
         for (int i = 0; i < zombie_num; i++) {
@@ -129,6 +134,8 @@ void set_zombie_pos(int level) {
         break;
     case 2:
         zombie_num = MOSTER_AMOUNT_LV2;
+        zombie_hp = ZOMBIE_HP_LV2;
+        zombie_speed = ZOMBIE_SPEED_LV2;
         static const int zombie_temp_lv2[] = ZOMBIE_POS_LV2;
         zombie_pos = (int*)malloc(zombie_num * sizeof(int));
         for (int i = 0; i < zombie_num; i++) {
@@ -137,6 +144,8 @@ void set_zombie_pos(int level) {
         break;
     case 3:
         zombie_num = MOSTER_AMOUNT_LV3;
+        zombie_hp = ZOMBIE_HP_LV3;
+        zombie_speed = ZOMBIE_SPEED_LV3;
         static const int zombie_temp_lv3[] = ZOMBIE_POS_LV3;
         zombie_pos = (int*)malloc(zombie_num * sizeof(int));
         for (int i = 0; i < zombie_num; i++) {
@@ -144,16 +153,18 @@ void set_zombie_pos(int level) {
         }
         break;
     }
-    
-    
 
+    
     for (int i = 0; i < zombie_num; i++) {
         Zombie* zombie = &zombies[i];
         zombie->active = 1;
         set_zombie_char(zombie, level);
+        zombie->hp = zombie_hp;
+        zombie->speed = zombie_speed;
         zombie->pos_x = (zombie_pos[i] % 12 - 1) * 100;
         zombie->pos_y = (zombie_pos[i] / 12) * 75;
     }
+    free(zombie_pos);
 }
 
 // 캐릭터 이미지 로드
@@ -250,6 +261,54 @@ void set_zombie_char(Zombie* zombie, int level) {
     }
 }
 
+void move_zombies(int level, int* direction, int frame_counter, int frame_delay) {
+    int zombie_num = (level == 1) ? MOSTER_AMOUNT_LV1 : (level == 2) ? MOSTER_AMOUNT_LV2 : MOSTER_AMOUNT_LV3;
+    for (int i = 0; i < zombie_num; i++) {
+        Zombie* zombie = &zombies[i];
+        
+        if (!zombie->active) {
+            continue; // 좀비가 활성화되어 있지 않으면 건너뜀
+        }
+
+        // 랜덤으로 이동 방향 결정
+        int new_zombie_x = zombie->pos_x;
+        int new_zombie_y = zombie->pos_y;
+
+        switch (direction[i]) {
+        case 0: // 상
+            new_zombie_y -= 2;
+            if (new_zombie_y < 0) new_zombie_y = 0;
+            zombie->current_zombie_image = zombie->back;
+            break;
+        case 1: // 하
+            new_zombie_y += 2;
+            if (new_zombie_y > MAX_y - OBJECT_HEIGHT) new_zombie_y = MAX_y - OBJECT_HEIGHT;
+            zombie->current_zombie_image = zombie->front;
+            break;
+        case 2: // 좌
+            new_zombie_x -= 2;
+            if (new_zombie_x < 0) new_zombie_x = 0;
+            zombie->current_zombie_image = (frame_counter % frame_delay) < (frame_delay / 2) ? zombie->left1 : zombie->left2;
+            break;
+        case 3: // 우
+            new_zombie_x += 2;
+            if (new_zombie_x > MAX_x - OBJECT_WIDTH) new_zombie_x = MAX_x - OBJECT_WIDTH;
+            zombie->current_zombie_image = (frame_counter % frame_delay) < (frame_delay / 2) ? zombie->right1 : zombie->right2;
+            break;
+        case 4:
+            zombie->current_zombie_image = zombie->front;
+            break;
+        }
+        
+
+        // 충돌 검사
+        if (!is_collision(level, new_zombie_x, new_zombie_y)) {
+            zombie->pos_x = new_zombie_x;
+            zombie->pos_y = new_zombie_y;
+        }
+    }
+}
+
 int set_barrier_img(int level, Barrier* barrier) {
 
     switch (level) {
@@ -310,12 +369,14 @@ void control_character(int level, int frame_counter, int frame_delay) {
         current_image = user.front; // 아래쪽 방향키
     }
     if (key[KEY_LEFT]) {
+
         new_user_x -= 2;
         if (new_user_x < 0) new_user_x = 0; // 왼쪽 경계 체크
-        if ((frame_counter % frame_delay) < (frame_delay / 2)) {
+        if (frame_counter % frame_delay < frame_delay / 2) {
             current_image = user.left1;
         }
         else {
+
             current_image = user.left2;
         }
     }
@@ -355,10 +416,8 @@ void destroy_map(int num_barriers) {
     destroy_bitmap(background);
     destroy_bitmap(water_bubble);
     destroy_bitmap(water_explode);
-    
-    
 
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 10; i++) {        
         destroy_bitmap(zombies[i].front);
         destroy_bitmap(zombies[i].left1);
         destroy_bitmap(zombies[i].left2);

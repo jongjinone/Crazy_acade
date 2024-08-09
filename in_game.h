@@ -75,6 +75,8 @@
 #define NUM_BARRIERS_LV2 8
 #define NUM_BARRIERS_LV3 10
 
+#define USER_ATTACK 3
+
 #define OBJECT_WIDTH 100 // 객체의 가로 크기
 #define OBJECT_HEIGHT 75 // 객체의 세로 크기
 
@@ -82,6 +84,16 @@
 #define POSITIONS_LV1 { 0 }
 #define POSITIONS_LV2 { 14, 23, 54, 55, 66, 67, 98, 107 }
 #define POSITIONS_LV3 { 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 }
+
+// zombie 초기 HP
+#define ZOMBIE_HP_LV1 3
+#define ZOMBIE_HP_LV2 5
+#define ZOMBIE_HP_LV3 10
+
+// zombie 초기 Speed
+#define ZOMBIE_SPEED_LV1 1
+#define ZOMBIE_SPEED_LV2 2
+#define ZOMBIE_SPEED_LV3 3
 
 // zombie 초기 위치
 #define ZOMBIE_POS_LV1 { 15, 55, 91 }
@@ -113,12 +125,15 @@ typedef struct {
 
     BITMAP* right1;
     BITMAP* right2;
+    BITMAP* current_zombie_image;
     
     int pos_x;
     int pos_y;
     int hp;       // 몬스터의 hp
     int speed;     // 몬스터의 speed
     int active;
+    int attack;
+
 } Zombie;
 
 // barrier 구조체
@@ -150,6 +165,7 @@ void set_zombie_pos(int level);
 void set_zombie_char(Zombie* zombie, int character);
 void set_bubbles();
 int set_barrier_img(int level, Barrier* barrier);
+void move_zombies(int level, int* direction, int frame_counter, int frame_delay);
 
 void draw_line();
 

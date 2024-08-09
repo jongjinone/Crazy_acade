@@ -1,6 +1,8 @@
 ﻿#include "in_game_main.h"
 #include "in_game.h"
 #include "music.h"
+#include <time.h>
+
 volatile int ticks = 0;
 
 void ticker() {
@@ -15,6 +17,11 @@ int game_start(int level, int character)
     int frame_delay = 30; // 애니메이션 프레임 간의 딜레이 설정
     int elapsed_time;
     int remaining_time;
+    // 좀비 랜덤 움직임 결정하는 변수
+    int direction[10];
+    clock_t old_time = 0;
+    clock_t current_time = clock();
+    
 
     int num_barriers = (level == 1) ? NUM_BARRIERS_LV1 : (level == 2) ? NUM_BARRIERS_LV2 : NUM_BARRIERS_LV3;
 
@@ -45,6 +52,19 @@ int game_start(int level, int character)
             control_character(level, frame_counter, frame_delay);
             frame_counter++;
 
+            
+            // 좀비 이동
+            current_time = clock();
+            double sleep_time = (double)(current_time - old_time) / CLOCKS_PER_SEC;
+            if (sleep_time >= 0.8) {
+                // 난수 생성 후 대입
+                for (int j = 0; j < 10; j++) {
+                    direction[j] = rand() % 5; // 0: 상, 1: 하, 2: 좌, 3: 우
+                }
+                old_time = current_time;
+            }
+            move_zombies(level, direction, frame_counter, frame_delay);
+
             // 스페이스바를 눌렀을 때 위치와 생성 시간 기록
             if (key[KEY_SPACE]) {
                 setBubble(user.pos_x, user.pos_y);
@@ -64,7 +84,7 @@ int game_start(int level, int character)
             // zombie 이미지 그리기
             for (int i = 0; i < 10; i++) {
                 if (zombies[i].active) {
-                    draw_sprite(buffer, zombies[i].front, zombies[i].pos_x, zombies[i].pos_y); // 백 버퍼에 캐릭터 이미지 그리기
+                    draw_sprite(buffer, zombies[i].current_zombie_image, zombies[i].pos_x, zombies[i].pos_y); // 백 버퍼에 캐릭터 이미지 그리기
                 }
             }
 
@@ -89,7 +109,6 @@ int game_start(int level, int character)
 
             ticks--;
             if (ticks != old_ticks) break;
-            
         }
         if (remaining_time == 0 || user.hp == 0) {
             break;
