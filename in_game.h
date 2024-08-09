@@ -44,19 +44,19 @@
 #define USER_ZOMBIE_LEFT1_1 "./img/character_zombie_left1.bmp"
 #define USER_ZOMBIE_LEFT2_1 "./img/character_zombie_left2.bmp"
 
-#define USER_ZOMBIE_FRONT_2 "./img/character_zombie_.bmp"
-#define USER_ZOMBIE_BACK_2 "./img/character_zombie_.bmp"
-#define USER_ZOMBIE_RIGHT1_2 "./img/character_zombie_.bmp"
-#define USER_ZOMBIE_RIGHT2_2 "./img/character_zombie_.bmp"
-#define USER_ZOMBIE_LEFT1_2 "./img/character_zombie_.bmp"
-#define USER_ZOMBIE_LEFT2_2 "./img/character_zombie_.bmp"
+#define USER_ZOMBIE_FRONT_2 "./img/character_zombie_front.bmp"
+#define USER_ZOMBIE_BACK_2 "./img/character_zombie_back.bmp"
+#define USER_ZOMBIE_RIGHT1_2 "./img/character_zombie_right1.bmp"
+#define USER_ZOMBIE_RIGHT2_2 "./img/character_zombie_right2.bmp"
+#define USER_ZOMBIE_LEFT1_2 "./img/character_zombie_left1.bmp"
+#define USER_ZOMBIE_LEFT2_2 "./img/character_zombie_left2.bmp"
 
-#define USER_ZOMBIE_FRONT_3 "./img/character_zombie_.bmp"
-#define USER_ZOMBIE_BACK_3 "./img/character_zombie_.bmp"
-#define USER_ZOMBIE_RIGHT1_3 "./img/character_zombie_.bmp"
-#define USER_ZOMBIE_RIGHT2_3 "./img/character_zombie_.bmp"
-#define USER_ZOMBIE_LEFT1_3 "./img/character_zombie_.bmp"
-#define USER_ZOMBIE_LEFT2_3 "./img/character_zombie_.bmp"
+#define USER_ZOMBIE_FRONT_3 "./img/character_zombie_front.bmp"
+#define USER_ZOMBIE_BACK_3 "./img/character_zombie_back.bmp"
+#define USER_ZOMBIE_RIGHT1_3 "./img/character_zombie_right1.bmp"
+#define USER_ZOMBIE_RIGHT2_3 "./img/character_zombie_right2.bmp"
+#define USER_ZOMBIE_LEFT1_3 "./img/character_zombie_left1.bmp"
+#define USER_ZOMBIE_LEFT2_3 "./img/character_zombie_left2.bmp"
 
 #define MOSTER_AMOUNT_LV1 3
 #define MOSTER_AMOUNT_LV2 5
@@ -97,8 +97,8 @@
 
 // zombie 초기 위치
 #define ZOMBIE_POS_LV1 { 15, 55, 91 }
-#define ZOMBIE_POS_LV2 { 23, 67, 89, 42, 110, 0 }
-#define ZOMBIE_POS_LV3 { 12, 78, 56, 33, 102, 5, 90, 0 }
+#define ZOMBIE_POS_LV2 { 23, 67, 89, 42, 110 }
+#define ZOMBIE_POS_LV3 { 12, 78, 56, 33, 102, 5, 90 }
 
 // user 구조체
 typedef struct {

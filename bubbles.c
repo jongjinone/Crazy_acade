@@ -33,7 +33,7 @@ void setBubble(int x, int y) {
     }
 }
 
-void explodeBubbles(BITMAP* buffer, int size, BITMAP* background, SAMPLE* sample) {
+int explodeBubbles(BITMAP* buffer, int size, BITMAP* background, SAMPLE* sample) {
     double current_time = clock();
     for (int i = 0; i < bubble_count; i++) {
         WaterBubble* bubble = &bubbles[i];
@@ -94,6 +94,13 @@ void explodeBubbles(BITMAP* buffer, int size, BITMAP* background, SAMPLE* sample
                     if (zombies[j].hp <= 0) {
                         zombies[j].hp = 0;
                         zombies[j].active = 0;
+                        int stage_finish_flag = 1;
+                        for (int k = 0; k < 10; k++) {
+                            if (zombies[k].active == 1) stage_finish_flag = 0;
+                        }
+                        if (stage_finish_flag) {
+                            return 1;
+                        }
                     }
                 }
             }
@@ -106,4 +113,5 @@ void explodeBubbles(BITMAP* buffer, int size, BITMAP* background, SAMPLE* sample
             draw_sprite(buffer, water_bubble, bubbles[i].x, bubbles[i].y);
         }
     }
+    return 0;
 }

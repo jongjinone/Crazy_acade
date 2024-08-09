@@ -164,6 +164,7 @@ void set_zombie_pos(int level) {
         zombie->pos_x = (zombie_pos[i] % 12 - 1) * 100;
         zombie->pos_y = (zombie_pos[i] / 12) * 75;
     }
+
     free(zombie_pos);
 }
 
@@ -398,6 +399,7 @@ void control_character(int level, int frame_counter, int frame_delay) {
 }
 
 void print_info(int remaining_time) {
+    textprintf_ex(buffer, font, 1250, 330, makecol(255, 255, 255), -1, "Score: %d", user.hp);
     textprintf_ex(buffer, font, 1250, 330, makecol(255, 255, 255), -1, "HP: %d", user.hp);
     textprintf_ex(buffer, font, 1250, 360, makecol(255, 255, 255), -1, "Speed: %d", user.speed);
     textprintf_ex(buffer, font, 1250, 390, makecol(255, 255, 255), -1, "Max Bubble Count: %d", user.water_bubble_cnt);
