@@ -20,8 +20,8 @@ typedef struct {
 
 void initializeBubbles();
 void setBubble(int x, int y);
-int explodeBubbles(BITMAP* buffer, int size, BITMAP* background,SAMPLE* sample);
 
+int explodeBubbles(BITMAP* buffer, int size, BITMAP* background,SAMPLE* sample, int level);
 
 // ¹°Ç³¼± °´Ã¼µé
 WaterBubble bubbles[MAX_BUBBLES];

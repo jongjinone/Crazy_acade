@@ -4,22 +4,28 @@
 char* a[NUM_LINES] = {
            "Crazy Arcade: Game Manual",
            "",
+           "",
+           "",
            "1. Introduction",
            "Welcome to Crazy Arcade! Dive into a thrilling action game where you use water balloons to trap and defeat opponents.",
            "Are you ready to become the ultimate champion ? ",
            "",
+           "",
            "2. Game Objective",
            "Eliminate opponents by trapping them with water balloons. The last player standing wins the round",
+           "",
            "",
            "3. Controls",
            "Movement: Arrow keys (ก่, ก้, ก็, กๆ)",
            "Place Water Balloon: Spacebar",
            "Special Abilities: Z, X, C (if applicable)",
            "",
+           "",
            "4. Characters",
            "Bomber Bob: Balanced speed and power.",
            "Speedy Sue: Fast but less powerful balloons.",
            "Strong Sam: Powerful balloons but slower.",
+           "",
            "",
            "5. Power-Ups",
            "Speed Boost: Increases movement speed.",
@@ -27,10 +33,12 @@ char* a[NUM_LINES] = {
            "Blast Radius Increase: Increases explosion radius.",
            "Shield: Temporary immunity.",
            "",
+           "",
            "6. Game Modes",
            "Classic Mode: Last player standing wins.",
            "Team Battle: Last team standing wins.",
            "Time Attack: Eliminate as many opponents as possible within a time limit",
+           "",
            "",
            "7. Tips and Tricks",
            "Strategic Placement: Trap opponents in confined spaces.",
@@ -38,11 +46,13 @@ char* a[NUM_LINES] = {
            "Stay Mobile: Avoid getting trapped.",
            "Learn Your Character: Maximize effectiveness in battle.",
            "",
+           "",
            "8. Troubleshooting",
            "Game Crashes: Update to the latest version and restart your computer.",
            "Connection Issues: Check and restart your internet connection.",
            "Performance Problems: Lower graphical settings.",
            "Controls Not Responding: Check keyboard connection and restart the game.",
+           "",
            "",
            "Enjoy Crazy Arcade and may the best player win!"
 };
@@ -52,8 +62,8 @@ int game_manual(BITMAP* buffer) {
 
        back_icon(buffer);
         int space = 10;
-        for (int i = 0; i < 43; i++) {
-            textprintf_ex(buffer, font, 100, 100 + space, makecol(255, 255, 255), -1, "%s", a[i]);
+        for (int i = 0; i < 53; i++) {
+            textout_centre_ex(buffer, font, a[i],MAX_WIDTH/2, MAX_DEPTH/2-250 + space, makecol(255, 255, 255), -1);
             space += 10;
         }
         blit(buffer, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);

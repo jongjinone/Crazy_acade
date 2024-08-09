@@ -21,7 +21,6 @@ int game_start(int level, int character)
     int direction[10];
     clock_t old_time = 0;
     clock_t current_time = clock();
-    
 
     int num_barriers = (level == 1) ? NUM_BARRIERS_LV1 : (level == 2) ? NUM_BARRIERS_LV2 : NUM_BARRIERS_LV3;
 
@@ -32,8 +31,13 @@ int game_start(int level, int character)
     LOCK_VARIABLE(ticks);
     install_int_ex(ticker, BPS_TO_TIMER(60)); // 60 ticks per second
 
-    SAMPLE* sample = action_music(m_put_balloon); ;
-    
+    SAMPLE* sample = action_music(m_put_balloon);
+
+    if(level ==1)  sample = play_music(m_stage1_bgm);
+    else if(level ==2  )  sample = play_music(m_stage2_bgm);
+    else if (level == 3)  sample = play_music(m_stage3_bgm);
+    else   sample = play_music(m_stage1_bgm);
+
     // 백 버퍼
     buffer = create_bitmap(WHOLE_x, WHOLE_y);
 
@@ -51,7 +55,6 @@ int game_start(int level, int character)
 
             control_character(level, frame_counter, frame_delay);
             frame_counter++;
-
             
             // 좀비 이동
             current_time = clock();
@@ -76,7 +79,7 @@ int game_start(int level, int character)
 
             // 물풍선 터트리기 (buffer, size 넘겨줘야함)
             int is_cleared = 0;
-            is_cleared = explodeBubbles(buffer, 3, background, sample);
+            is_cleared = explodeBubbles(buffer, 3, background, sample, level);
             if (is_cleared > 0) {
                 goto next_stage;
             }
@@ -118,11 +121,21 @@ int game_start(int level, int character)
             break;
         }
     }
+
+    destroy_sample(sample);
+    
+    SAMPLE* sample_lose = action_music(m_lose);   
+    rest(2000);
+
+    destroy_sample(sample_lose);
     destroy_map(num_barriers);
-    off_music(sample);
     return 0;
 
 next_stage:
+    SAMPLE* sample2 = action_music(m_clear);
+    rest(6000);
+
+    destroy_sample(sample2);
     destroy_map(num_barriers);
     off_music(sample);
     return level;

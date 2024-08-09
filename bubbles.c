@@ -29,11 +29,11 @@ void setBubble(int x, int y) {
         bubble->active = 1;
 
         bubble->create_time = clock();
-      //  rest(10); // 발사 간격 조절
     }
 }
 
-int explodeBubbles(BITMAP* buffer, int size, BITMAP* background, SAMPLE* sample) {
+
+int explodeBubbles(BITMAP* buffer, int size, BITMAP* background, SAMPLE* sample, int level) {
     double current_time = clock();
     for (int i = 0; i < bubble_count; i++) {
         WaterBubble* bubble = &bubbles[i];
@@ -81,13 +81,16 @@ int explodeBubbles(BITMAP* buffer, int size, BITMAP* background, SAMPLE* sample)
         int condition1;
         int condition2;
 
-        for (int j = 0; j < 10; j++) {
+
+        int num_zombies = (level == 1) ? MOSTER_AMOUNT_LV1 : (level == 2 ? MOSTER_AMOUNT_LV2 : MOSTER_AMOUNT_LV3);
+
+        for (int j = 0; j < num_zombies; j++) {
             if (explode->active) {
-                condition1 = explode->x - size * x_size < zombies[j].pos_x + 50 && zombies[j].pos_x + 50 < explode->x + (size + 1) * x_size &&
-                    explode->y < zombies[j].pos_y + 37 && zombies[j].pos_y + 37 < explode->y + y_size;
+                condition1 = explode->x - size * x_size < zombies[j].pos_x+50 && zombies[j].pos_x+50 < explode->x + (size+1) * x_size &&
+                             explode->y < zombies[j].pos_y+37 && zombies[j].pos_y+37 < explode->y + y_size;
 
                 condition2 = explode->y - size * y_size < zombies[j].pos_y + 37 && zombies[j].pos_y + 37 < explode->y + (size + 1) * y_size &&
-                    explode->x < zombies[j].pos_x + 50 && zombies[j].pos_x + 50 < explode->x + x_size;
+                             explode->x < zombies[j].pos_x + 50 && zombies[j].pos_x + 50 < explode->x + x_size;
 
                 if (condition1 || condition2) {
                     zombies[j].hp -= USER_ATTACK;
