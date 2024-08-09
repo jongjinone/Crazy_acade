@@ -32,8 +32,13 @@ int game_start(int level, int character)
     LOCK_VARIABLE(ticks);
     install_int_ex(ticker, BPS_TO_TIMER(60)); // 60 ticks per second
 
-    SAMPLE* sample = action_music(m_put_balloon); ;
-    
+    SAMPLE* sample = action_music(m_put_balloon);
+
+    if(level ==1)  sample = play_music(m_stage1_bgm);
+    else if(level ==2  )  sample = play_music(m_stage2_bgm);
+    else if (level == 3)  sample = play_music(m_stage3_bgm);
+    else   sample = play_music(m_stage1_bgm);
+
     // 백 버퍼
     buffer = create_bitmap(WHOLE_x, WHOLE_y);
 
@@ -114,8 +119,17 @@ int game_start(int level, int character)
             break;
         }
     }
+    destroy_sample(sample);
+    
+    SAMPLE* sample1 = action_music(m_clear);   
+   // off_music(sample);
+    rest(6000);
 
+
+    stop_sample(sample1);
+    destroy_sample(sample1);
+    //off_music(sample);
     destroy_map(num_barriers);
-    off_music(sample);
+
     return 0;
 }
