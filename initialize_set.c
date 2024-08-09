@@ -1,5 +1,6 @@
 #include "initialize_set.h"
-#include "param.h"
+//#include "param.h"
+//#include "music.h"
 
 enum INTRO {
     LOGIN =1, 
@@ -21,6 +22,9 @@ void initialize_window(void) {
     install_mouse();
 
     install_timer();
+
+    install_sound(DIGI_AUTODETECT, MIDI_AUTODETECT, NULL);
+    set_volume(255, 255);
 
     // 숨겨진 마우스를 화면에 표시
     show_mouse(screen);
@@ -91,6 +95,7 @@ int login_menu(BITMAP* buffer) {
 int main_intro(BITMAP* buffer) {
 
     BITMAP* logo = load_bitmap("./img/LOGO.bmp", NULL);
+    SAMPLE* sample =  play_music(m_intro_bgm);
     while (1) {
         // 오프스크린 버퍼를 검은색으로 지우기
         clear_to_color(buffer, makecol(0, 0, 0));
@@ -98,13 +103,15 @@ int main_intro(BITMAP* buffer) {
 
         case_num = login_menu(buffer);
         if (case_num == LOGIN) {
-            clear_to_color(buffer, makecol(0, 0, 0));
+            off_music(sample);
             return 0;
         }
         if (case_num == NEW_REGISTER) {
+            off_music(sample);
             return 1;
         }
         if (case_num == EXIT) {
+            off_music(sample);
             exit(0);
         }
 

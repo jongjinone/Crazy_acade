@@ -1,6 +1,7 @@
 #include "bubbles.h"
 #include "in_game.h"
 #include <allegro.h>
+#include "music.h"
 #include <time.h>
 
 // x, y 좌표 한칸의 크기
@@ -32,7 +33,7 @@ void setBubble(int x, int y) {
     }
 }
 
-void explodeBubbles(BITMAP* buffer, int size, BITMAP* background) {
+void explodeBubbles(BITMAP* buffer, int size, BITMAP* background, SAMPLE* sample) {
     double current_time = clock();
     for (int i = 0; i < bubble_count; i++) {
         WaterBubble* bubble = &bubbles[i];
@@ -40,6 +41,7 @@ void explodeBubbles(BITMAP* buffer, int size, BITMAP* background) {
             double bubble_time_diff = (double)(current_time - bubble->create_time) / CLOCKS_PER_SEC;
             if (bubble_time_diff > 2) {
                 // 2초 후 물풍선 사라지고 폭발 객체 활성화
+                sample = action_music(m_pop_balloon);
                 bubble->active = 0;
                 WaterExplode* explode = &explodes[explode_count++];
                 explode->x = bubble->x;
@@ -64,20 +66,37 @@ void explodeBubbles(BITMAP* buffer, int size, BITMAP* background) {
                 int explode_x_size = k * x_size;
                 int explode_y_size = k * y_size;
 
-                int plus_x = (explode->x + explode_x_size <MAX_x) ? (explode->x + explode_x_size) : MAX_x-100;
-
                 draw_sprite(buffer, water_explode, explode->x - explode_x_size, explode->y);
-                draw_sprite(buffer, water_explode, plus_x, explode->y); //MAX_x
+                draw_sprite(buffer, water_explode, (explode->x + explode_x_size < MAX_x) ? (explode->x + explode_x_size) : MAX_x - 100, explode->y);
                 draw_sprite(buffer, water_explode, explode->x, explode->y - explode_y_size);
                 draw_sprite(buffer, water_explode, explode->x, explode->y + explode_y_size);
-            }
 
+            }
             // 폭발 애니메이션 지속 시간
             double explode_time_diff = (double)(current_time - explode->explode_time) / CLOCKS_PER_SEC;
             if (explode_time_diff > 0.8) {
                 explode->active = 0;
             }
         }
+        int condition1;
+        int condition2;
+
+        for (int j = 0; j < MOSTER_AMOUNT_LV1; j++) {
+            condition1 = explode->x - size * x_size < zombies[j].pos_x+50 && zombies[j].pos_x+50 < explode->x + (size+1) * x_size &&
+                explode->y < zombies[j].pos_y+37 && zombies[j].pos_y+37 < explode->y + y_size;
+
+            condition2 = explode->y - size * y_size < zombies[j].pos_y+37 && zombies[j].pos_y+37 < explode->y + (size+1) * y_size &&
+                explode->x < zombies[j].pos_x+50 && zombies[j].pos_x+50 < explode->x + x_size;
+
+            if (condition1 || condition2) {
+                zombies[j].hp -= USER_ATTACK;
+                if (zombies[j].hp <= 0) {
+                    zombies[j].hp = 0;
+                    zombies[j].active = 0;
+                }
+            }
+        }
+        
     }
 
     // 활성화된 물풍선 그리기

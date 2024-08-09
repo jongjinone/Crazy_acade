@@ -1,5 +1,3 @@
-#include "allegro.h"
-#include "param.h"
 #include "after_login.h"
 #if 01
 enum AF_login {
@@ -96,24 +94,30 @@ int AF_check_back(BITMAP* buffer) {
     return -1;
 }
 int main_AF_login(BITMAP* buffer) {
+    SAMPLE* sample = play_music(m_after_login_bgm);
     while (1) {
         clear_to_color(buffer, makecol(0, 0, 0));
         int case_num;
-
         case_num = AF_login_menu(buffer);
         if (case_num == BACK) {
+            off_music(sample);
             return BACK;
         }
         if (case_num == GAMESTART) {
+            off_music(sample);
             return GAMESTART;
         }
         if (case_num == GAME_MANUAL) {
+            off_music(sample);
             return GAME_MANUAL;
         }
         if (case_num == RECORD) {
+            off_music(sample);
             return RECORD;
         }
         if (case_num == EXIT) {
+            off_music(sample);
+            
             exit(0);
         }
 

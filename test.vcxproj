@@ -138,6 +138,7 @@
     <ClCompile Include="in_game_util.c" />
     <ClCompile Include="login.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="music.c" />
     <ClCompile Include="new_register.c" />
     <ClCompile Include="user_data.c" />
   </ItemGroup>
@@ -150,6 +151,7 @@
     <ClInclude Include="in_game.h" />
     <ClInclude Include="in_game_main.h" />
     <ClInclude Include="login.h" />
+    <ClInclude Include="music.h" />
     <ClInclude Include="new_register.h" />
     <ClInclude Include="param.h" />
     <ClInclude Include="user_data.h" />
