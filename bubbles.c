@@ -82,21 +82,22 @@ void explodeBubbles(BITMAP* buffer, int size, BITMAP* background, SAMPLE* sample
         int condition2;
 
         for (int j = 0; j < MOSTER_AMOUNT_LV1; j++) {
-            condition1 = explode->x - size * x_size < zombies[j].pos_x+50 && zombies[j].pos_x+50 < explode->x + (size+1) * x_size &&
-                explode->y < zombies[j].pos_y+37 && zombies[j].pos_y+37 < explode->y + y_size;
+            if (explode->active) {
+                condition1 = explode->x - size * x_size < zombies[j].pos_x + 50 && zombies[j].pos_x + 50 < explode->x + (size + 1) * x_size &&
+                    explode->y < zombies[j].pos_y + 37 && zombies[j].pos_y + 37 < explode->y + y_size;
 
-            condition2 = explode->y - size * y_size < zombies[j].pos_y+37 && zombies[j].pos_y+37 < explode->y + (size+1) * y_size &&
-                explode->x < zombies[j].pos_x+50 && zombies[j].pos_x+50 < explode->x + x_size;
+                condition2 = explode->y - size * y_size < zombies[j].pos_y + 37 && zombies[j].pos_y + 37 < explode->y + (size + 1) * y_size &&
+                    explode->x < zombies[j].pos_x + 50 && zombies[j].pos_x + 50 < explode->x + x_size;
 
-            if (condition1 || condition2) {
-                zombies[j].hp -= USER_ATTACK;
-                if (zombies[j].hp <= 0) {
-                    zombies[j].hp = 0;
-                    zombies[j].active = 0;
+                if (condition1 || condition2) {
+                    zombies[j].hp -= USER_ATTACK;
+                    if (zombies[j].hp <= 0) {
+                        zombies[j].hp = 0;
+                        zombies[j].active = 0;
+                    }
                 }
             }
         }
-        
     }
 
     // 활성화된 물풍선 그리기
