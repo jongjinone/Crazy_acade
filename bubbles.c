@@ -81,7 +81,7 @@ int explodeBubbles(BITMAP* buffer, int size, BITMAP* background, SAMPLE* sample)
         int condition1;
         int condition2;
 
-        for (int j = 0; j < MOSTER_AMOUNT_LV1; j++) {
+        for (int j = 0; j < 10; j++) {
             if (explode->active) {
                 condition1 = explode->x - size * x_size < zombies[j].pos_x + 50 && zombies[j].pos_x + 50 < explode->x + (size + 1) * x_size &&
                     explode->y < zombies[j].pos_y + 37 && zombies[j].pos_y + 37 < explode->y + y_size;

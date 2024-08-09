@@ -63,6 +63,7 @@ int game_start(int level, int character)
                 }
                 old_time = current_time;
             }
+
             move_zombies(level, direction, frame_counter, frame_delay);
 
             // 스페이스바를 눌렀을 때 위치와 생성 시간 기록

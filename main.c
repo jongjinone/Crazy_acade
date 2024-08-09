@@ -61,7 +61,13 @@ after_login:
 game_start:
     case_num = game_start(1,1);
     if (case_num == 0) goto after_login;
-    if (case_num == 1) case_num = game_start(2, 1);
+    if (case_num == 1) {
+        case_num = game_start(2, 1);
+
+        // 여기에 종료화면 추가하기
+
+        if (case_num == 0) goto after_login;
+    }
     if (case_num == 2) case_num = game_start(3, 1);
 
     destroy_bitmap(buffer);
