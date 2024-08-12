@@ -117,7 +117,8 @@ int main_AF_login(BITMAP* buffer) {
         }
         if (case_num == EXIT) {
             off_music(sample);
-            
+            destroy_bitmap(buffer);
+            freeall_user_data();
             exit(0);
         }
 

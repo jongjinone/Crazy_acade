@@ -11,12 +11,17 @@ void ticker() {
 
 END_OF_FUNCTION(ticker)
 
-int game_start(int level, int character)
+int game_start(int level, int character,int* score)
 {
     int frame_counter = 0; // 애니메이션 프레임 조정 변수
     int frame_delay = 30; // 애니메이션 프레임 간의 딜레이 설정
     int elapsed_time;
     int remaining_time;
+
+    int flag_next = 0;
+    int flag_fail = 0;
+
+
     // 좀비 랜덤 움직임 결정하는 변수
     int direction[10];
     clock_t old_time = 0;
@@ -31,7 +36,9 @@ int game_start(int level, int character)
     LOCK_VARIABLE(ticks);
     install_int_ex(ticker, BPS_TO_TIMER(60)); // 60 ticks per second
 
-    SAMPLE* sample = action_music(m_put_balloon);
+    SAMPLE* sample = NULL;
+    SAMPLE* bubble_music = NULL;
+
 
     if(level ==1)  sample = play_music(m_stage1_bgm);
     else if(level ==2  )  sample = play_music(m_stage2_bgm);
@@ -72,16 +79,17 @@ int game_start(int level, int character)
             // 스페이스바를 눌렀을 때 위치와 생성 시간 기록
             if (key[KEY_SPACE]) {
                 setBubble(user.pos_x, user.pos_y);
-                sample = action_music(m_put_balloon);
+                bubble_music = action_music(m_put_balloon);
                 key[KEY_SPACE] = 0;
             }
             draw_sprite(buffer, background, 0, 0);
 
             // 물풍선 터트리기 (buffer, size 넘겨줘야함)
             int is_cleared = 0;
-            is_cleared = explodeBubbles(buffer, 3, background, sample, level);
+            is_cleared = explodeBubbles(buffer, 3, background, bubble_music, level);
             if (is_cleared > 0) {
-                goto next_stage;
+                ++flag_next;
+                goto end;
             }
 
             draw_line();
@@ -117,26 +125,42 @@ int game_start(int level, int character)
             ticks--;
             if (ticks != old_ticks) break;
         }
+        /*
+        // 물풍선 터트리기 (buffer, size 넘겨줘야함)
+        int is_cleared = 0;
+        is_cleared = explodeBubbles(buffer, 3, background, bubble_music, level);
+        if (is_cleared > 0) {
+            ++flag_next ;
+            goto end;
+        }*/
         if (remaining_time == 0 || user.hp == 0) {
+            ++flag_fail;
             break;
         }
     }
 
-    destroy_sample(sample);
-    
-    SAMPLE* sample_lose = action_music(m_lose);   
-    rest(2000);
-
-    destroy_sample(sample_lose);
-    destroy_map(num_barriers);
-    return 0;
-
-next_stage:
-    SAMPLE* sample2 = action_music(m_clear);
-    rest(6000);
-
-    destroy_sample(sample2);
-    destroy_map(num_barriers);
+    end:
+    stop_sample(sample);
     off_music(sample);
-    return level;
+    off_music(bubble_music);
+
+
+    if (flag_next) {
+        SAMPLE* sample_win = action_music(m_clear);
+        rest(6000);
+        off_music(sample_win);
+        destroy_map(num_barriers);
+        return level;
+    }
+    else {
+        if (flag_fail) {
+            SAMPLE* sample_lose = action_music(m_lose);
+            rest(2000);
+            off_music(sample_lose);
+            return 0;
+        }
+        else {
+            return -1;
+        }
+    }
 }
