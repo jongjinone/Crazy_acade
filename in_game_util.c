@@ -510,12 +510,12 @@ void calScore(int level, int remaining_time, int* score) {
         break;
     case 2:
         temp += 200 * (MOSTER_AMOUNT_LV2 - zombie_num);
-        temp *= remaining_time / 180;
+        temp *= remaining_time;
         *score += temp;
         break;
     case 3:
         temp += 300 * (MOSTER_AMOUNT_LV3 - zombie_num);
-        temp *= remaining_time / 180;
+        temp *= remaining_time;
         *score += temp;
         break;
     }

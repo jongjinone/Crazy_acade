@@ -61,6 +61,7 @@ game_start:
     if (case_num == -1) goto after_login;
     if (case_num == 0) {
         update_score(&target_user, score);
+        Save();
         goto after_login;
     }
     if (case_num == 1) {
@@ -68,6 +69,7 @@ game_start:
         if (case_num == 0 || case_num == -1) {
             if (case_num == 0) {
                 update_score(&target_user, score);
+                Save();
             }
             goto after_login;
         }
@@ -77,6 +79,7 @@ game_start:
          if (case_num == 0 || case_num == -1) {
               if (case_num == 0) {
                  update_score(&target_user, score);
+                 Save();
               }
               goto after_login;
          }
