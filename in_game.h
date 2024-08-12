@@ -63,7 +63,7 @@
 
 #define NUM_BARRIERS_LV1 0
 #define NUM_BARRIERS_LV2 8
-#define NUM_BARRIERS_LV3 10
+#define NUM_BARRIERS_LV3 26
 
 #define USER_ATTACK 3 
 #define USER_HP 200
@@ -74,7 +74,7 @@
 // barrier의 위치 
 #define POSITIONS_LV1 { 0 }
 #define POSITIONS_LV2 { 14, 23, 54, 55, 66, 67, 98, 107 }
-#define POSITIONS_LV3 { 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 }
+#define POSITIONS_LV3 { 15, 16, 17, 18, 19, 20, 21, 22, 23, 38, 47, 50, 59, 62, 71, 74, 83, 99, 100, 101, 102, 103, 104, 105, 106, 107 }
 
 // zombie 초기 HP
 #define ZOMBIE_HP_LV1 3
@@ -94,7 +94,7 @@
 // zombie 초기 위치
 #define ZOMBIE_POS_LV1 { 15, 55, 91 }
 #define ZOMBIE_POS_LV2 { 27, 68, 89, 42, 110 }
-#define ZOMBIE_POS_LV3 { 12, 78, 56, 33, 102, 5, 90 }
+#define ZOMBIE_POS_LV3 { 5, 12, 33, 56, 78, 90, 108 }
 
 // user 구조체
 typedef struct {

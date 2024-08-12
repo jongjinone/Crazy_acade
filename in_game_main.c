@@ -105,7 +105,7 @@ int game_start(int level, int character)
             elapsed_time = (int)difftime(current_time, t);
             remaining_time = 180 - elapsed_time;
 
-            if (remaining_time <= 0 || user.hp==0) { // 남은 시간이 0 이하일 경우 게임 종료
+            if (remaining_time <= 0) { // 남은 시간이 0 이하일 경우 게임 종료
                 remaining_time = 0;
                 break; // 게임 루프를 종료합니다.
             }
