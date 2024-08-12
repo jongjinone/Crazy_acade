@@ -112,6 +112,7 @@ int main_intro(BITMAP* buffer) {
         }
         if (case_num == EXIT) {
             off_music(sample);
+            Save();
             exit(0);
         }
 

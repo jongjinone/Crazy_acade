@@ -217,10 +217,10 @@ int Save(void)
 		ptr = ptr->next;
 		cnt++;
 	}
-	return SUCCESS;
 
 	fflush(fp);
 	fclose(fp); //파일 포인터 닫기
+	return SUCCESS;
 }
 
 void freeall_user_data(void)
