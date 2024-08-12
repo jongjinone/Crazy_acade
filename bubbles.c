@@ -32,10 +32,6 @@ void setBubble(int x, int y) {
     }
 }
 
-int check_boundary(int* barriers_pos) {
-
-}
-
 int explodeBubbles(BITMAP* buffer, int size, BITMAP* background, SAMPLE* sample, int level) {
     double current_time = clock();
     int num_barriers;

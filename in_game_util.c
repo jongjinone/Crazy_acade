@@ -154,6 +154,11 @@ void set_zombie_pos(int level) {
         break;
     }
     
+    for (int i = 0; i < 10; i++) {
+        Zombie* zombie = &zombies[i];
+        zombie->active = 0;
+    }
+
     for (int i = 0; i < zombie_num; i++) {
         Zombie* zombie = &zombies[i];
         zombie->active = 1;
@@ -419,12 +424,13 @@ void control_character(int level, int frame_counter, int frame_delay) {
     
 }
 
-void print_info(int remaining_time) {
+void print_info(int remaining_time, int* score) {
     textprintf_ex(buffer, font, 1250, 330, makecol(255, 0, 0), -1, "HP: %d", user.hp);
-    //textprintf_ex(buffer, font, 1250, 360, makecol(255, 255, 255), -1, "Speed: %d", user.speed);
     textprintf_ex(buffer, font, 1250, 360, makecol(255, 255, 255), -1, "Max Bubble Count: %d", user.water_bubble_cnt);
     textprintf_ex(buffer, font, 1250, 390, makecol(255, 255, 255), -1, "Left Monsters: %d", count_zombie());
     textprintf_ex(buffer, font, 1250, 420, makecol(255, 255, 255), -1, "Time: %02d:%02d", remaining_time / 60, remaining_time % 60);
+    textprintf_ex(buffer, font, 1250, 480, makecol(0, 0, 255), -1, "Current Score: %d", *score); 
+
 }
 
 void destroy_map(int num_barriers) {
@@ -476,4 +482,26 @@ int count_zombie() {
         }
     }
     return cnt;
+}
+
+void calScore(int level, int remaining_time, int* score) {
+    int zombie_num = count_zombie();
+    int temp = 0;
+    switch (level) {
+    case 1:
+        temp += 100 * zombie_num;
+        temp *= remaining_time / 180;
+        *score += temp;
+        break;
+    case 2:
+        temp += 200 * zombie_num;
+        temp *= remaining_time / 180;
+        *score += temp;
+        break;
+    case 3:
+        temp += 300 * zombie_num;
+        temp *= remaining_time / 180;
+        *score += temp;
+        break;
+    }
 }

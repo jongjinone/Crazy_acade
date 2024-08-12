@@ -63,7 +63,7 @@
 
 #define NUM_BARRIERS_LV1 0
 #define NUM_BARRIERS_LV2 8
-#define NUM_BARRIERS_LV3 26
+#define NUM_BARRIERS_LV3 22
 
 #define USER_ATTACK 3 
 #define USER_HP 200
@@ -74,7 +74,7 @@
 // barrier의 위치 
 #define POSITIONS_LV1 { 0 }
 #define POSITIONS_LV2 { 14, 23, 54, 55, 66, 67, 98, 107 }
-#define POSITIONS_LV3 { 15, 16, 17, 18, 19, 20, 21, 22, 23, 38, 47, 50, 59, 62, 71, 74, 83, 99, 100, 101, 102, 103, 104, 105, 106, 107 }
+#define POSITIONS_LV3 { 16, 17, 18, 19, 20, 21, 22, 38, 47, 50, 59, 62, 71, 74, 83, 100, 101, 102, 103, 104, 105, 106 }
 
 // zombie 초기 HP
 #define ZOMBIE_HP_LV1 3
@@ -171,8 +171,11 @@ void move_zombies(int level, int* direction, int frame_counter, int frame_delay)
 void draw_line();
 
 void control_character(int level, int frame_counter, int frame_delay);
-void print_info(int remaining_time);
+void print_info(int remaining_time, int* score);
 void destroy_map(int num_barriers);
 
 int is_collision(int level, int x, int y);
 int count_zombie();
+
+// 점수 계산
+void calScore(int level, int remaining_time, int* score);
