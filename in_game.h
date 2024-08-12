@@ -63,7 +63,7 @@
 
 #define NUM_BARRIERS_LV1 0
 #define NUM_BARRIERS_LV2 8
-#define NUM_BARRIERS_LV3 22
+#define NUM_BARRIERS_LV3 20
 
 #define USER_ATTACK 3 
 #define USER_HP 200
@@ -72,9 +72,9 @@
 #define OBJECT_HEIGHT 75 // 객체의 세로 크기
 
 // barrier의 위치 
-#define POSITIONS_LV1 { 0 }
+#define POSITIONS_LV1 { 0 } 
 #define POSITIONS_LV2 { 14, 23, 54, 55, 66, 67, 98, 107 }
-#define POSITIONS_LV3 { 17, 18, 19, 20, 21, 38, 47, 50, 59, 62, 71, 74, 83, 100, 101, 102, 103, 104, 105 }
+#define POSITIONS_LV3 {16, 17, 18, 19, 20, 21, 38, 47, 50, 59, 62, 71, 74, 83, 100, 101, 102, 103, 104, 105}
 
 // zombie 초기 HP
 #define ZOMBIE_HP_LV1 3
