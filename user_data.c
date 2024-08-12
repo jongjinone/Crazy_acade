@@ -205,6 +205,7 @@ int Save(void)
 	}
 	while (ptr)
 	{
+	//		allegro_message("%d", cnt);
 		fprintf(fp, "[%d]\n", cnt);
 		fprintf(fp, "%s\n", ptr->ID);
 		fprintf(fp, "%s\n", ptr->pwd);
@@ -242,4 +243,23 @@ void freeall_user_data(void)
 		}
 		init_user_data();
 	}
+}
+
+void update_score(USER_DATA** target_user_p, int score) {
+	USER_DATA* target = *target_user_p;
+	// score를 문자열로 변환하여 a에 저장
+
+	for (int i = 0; i < 4; i++) {
+		strcpy(target->record[i + 1].record_num, target->record[i].record_num);
+		strcpy(target->record[i + 1].record_time, target->record[i].record_time);
+	}
+
+	sprintf(target->record[0].record_num, "%d", score);
+
+	time_t t = time(NULL); // 현재 시간을 가져옴
+	struct tm* tm_info = localtime(&t); // 현재 시간을 지역 시간으로 변환
+
+	// 날짜와 시간을 "YYYY-MM-DD HH:MM" 형식으로 a에 저장
+	strftime(target->record[0].record_time, sizeof(target->record[0].record_time), "%Y-%m-%d %H:%M", tm_info);
+
 }

@@ -125,14 +125,6 @@ int game_start(int level, int character,int* score)
             ticks--;
             if (ticks != old_ticks) break;
         }
-        /*
-        // 물풍선 터트리기 (buffer, size 넘겨줘야함)
-        int is_cleared = 0;
-        is_cleared = explodeBubbles(buffer, 3, background, bubble_music, level);
-        if (is_cleared > 0) {
-            ++flag_next ;
-            goto end;
-        }*/
         if (remaining_time == 0 || user.hp == 0) {
             ++flag_fail;
             break;
