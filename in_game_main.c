@@ -150,6 +150,7 @@ int game_start(int level, int character,int* score)
         rest(6000);
         off_music(sample_win);
         destroy_map(num_barriers);
+        calScore(level, remaining_time, score);
         return level;
     }
     else {
@@ -157,6 +158,7 @@ int game_start(int level, int character,int* score)
             SAMPLE* sample_lose = action_music(m_lose);
             rest(2000);
             off_music(sample_lose);
+            calScore(level, remaining_time, score);
             return 0;
         }
         else {

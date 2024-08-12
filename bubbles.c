@@ -32,7 +32,6 @@ void setBubble(int x, int y) {
     }
 }
 
-
 int explodeBubbles(BITMAP* buffer, int size, BITMAP* background, SAMPLE* sample, int level) {
     double current_time = clock();
     for (int i = 0; i < bubble_count; i++) {

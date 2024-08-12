@@ -482,3 +482,25 @@ int count_zombie() {
     }
     return cnt;
 }
+
+void calScore(int level, int remaining_time, int* score) {
+    int zombie_num = count_zombie();
+    int temp = 0;
+    switch (level) {
+    case 1:
+        temp += 100 * zombie_num;
+        temp *= remaining_time / 180;
+        *score += temp;
+        break;
+    case 2:
+        temp += 200 * zombie_num;
+        temp *= remaining_time / 180;
+        *score += temp;
+        break;
+    case 3:
+        temp += 300 * zombie_num;
+        temp *= remaining_time / 180;
+        *score += temp;
+        break;
+    }
+}
