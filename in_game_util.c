@@ -424,8 +424,24 @@ void control_character(int level, int frame_counter, int frame_delay) {
     
 }
 
+
+
 void print_info(int remaining_time, int* score) {
-    textprintf_ex(buffer, font, 1250, 330, makecol(255, 0, 0), -1, "HP: %d", user.hp);
+
+    // HP를 시각적으로 표시하는 바의 크기 설정
+    int hp_bar_width = 200; // HP 바의 전체 너비
+    int hp_bar_height = 20; // HP 바의 높이
+    int hp_bar_x = 1250; // HP 바의 x 좌표
+    int hp_bar_y = 320; // HP 바의 y 좌표
+
+    // 현재 HP에 따른 HP 바의 너비 계산
+    int current_hp_bar_width = (user.hp * hp_bar_width) / 200; // 200은 MAX_HP
+
+    // HP 바를 그리기
+    rectfill(buffer, hp_bar_x, hp_bar_y, hp_bar_x + current_hp_bar_width, hp_bar_y + hp_bar_height, makecol(255, 0, 0)); // 남은 HP를 빨간색으로 채움
+    rect(buffer, hp_bar_x, hp_bar_y, hp_bar_x + hp_bar_width, hp_bar_y + hp_bar_height, makecol(255, 255, 255)); // HP 바의 테두리 그리기
+
+    textprintf_ex(buffer, font, 1250, 300, makecol(255, 0, 0), -1, "HP: %d", user.hp);
     textprintf_ex(buffer, font, 1250, 360, makecol(255, 255, 255), -1, "Max Bubble Count: %d", user.water_bubble_cnt);
     textprintf_ex(buffer, font, 1250, 390, makecol(255, 255, 255), -1, "Left Monsters: %d", count_zombie());
     textprintf_ex(buffer, font, 1250, 420, makecol(255, 255, 255), -1, "Time: %02d:%02d", remaining_time / 60, remaining_time % 60);
@@ -489,17 +505,17 @@ void calScore(int level, int remaining_time, int* score) {
     int temp = 0;
     switch (level) {
     case 1:
-        temp += 100 * zombie_num;
-        temp *= remaining_time / 180;
+        temp += 100 * (MOSTER_AMOUNT_LV1 - zombie_num);
+        temp *= remaining_time;
         *score += temp;
         break;
     case 2:
-        temp += 200 * zombie_num;
+        temp += 200 * (MOSTER_AMOUNT_LV2 - zombie_num);
         temp *= remaining_time / 180;
         *score += temp;
         break;
     case 3:
-        temp += 300 * zombie_num;
+        temp += 300 * (MOSTER_AMOUNT_LV3 - zombie_num);
         temp *= remaining_time / 180;
         *score += temp;
         break;

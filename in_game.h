@@ -93,6 +93,7 @@
 
 // zombie 초기 위치
 #define ZOMBIE_POS_LV1 { 15, 55, 91 }
+
 #define ZOMBIE_POS_LV2 { 27, 68, 89, 42, 110 }
 #define ZOMBIE_POS_LV3 { 5, 12, 33, 56, 78, 90, 108 }
 
