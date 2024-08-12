@@ -1,7 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "collection.h"
 
-
 int main() {
 
     initialize_window(MAX_WIDTH, MAX_DEPTH);
@@ -22,7 +21,6 @@ intro:
 
 new_register:
     case_num = main_new_register(buffer);
-    //printall_user_data(buffer);
     if (case_num == 0) {
         goto intro;
     }
@@ -44,7 +42,6 @@ login:
     }
 
 after_login:
- //   printall_user_data(buffer);
     score = 0;
     case_num = main_AF_login(buffer);
     if (case_num == 0) goto login;
@@ -70,7 +67,6 @@ game_start:
         case_num = game_start(2, 1,&score);
         if (case_num == 0 || case_num == -1) {
             if (case_num == 0) {
-                allegro_message("%d", score);
                 update_score(&target_user, score);
             }
             goto after_login;

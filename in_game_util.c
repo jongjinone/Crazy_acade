@@ -442,7 +442,6 @@ void print_info(int remaining_time, int* score) {
     rect(buffer, hp_bar_x, hp_bar_y, hp_bar_x + hp_bar_width, hp_bar_y + hp_bar_height, makecol(255, 255, 255)); // HP 바의 테두리 그리기
 
     textprintf_ex(buffer, font, 1250, 300, makecol(255, 0, 0), -1, "HP: %d", user.hp);
-    textprintf_ex(buffer, font, 1250, 360, makecol(255, 255, 255), -1, "Max Bubble Count: %d", user.water_bubble_cnt);
     textprintf_ex(buffer, font, 1250, 390, makecol(255, 255, 255), -1, "Left Monsters: %d", count_zombie());
     textprintf_ex(buffer, font, 1250, 420, makecol(255, 255, 255), -1, "Time: %02d:%02d", remaining_time / 60, remaining_time % 60);
     textprintf_ex(buffer, font, 1250, 480, makecol(0, 0, 255), -1, "Current Score: %d", *score); 
