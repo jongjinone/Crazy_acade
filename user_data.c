@@ -249,7 +249,7 @@ void update_score(USER_DATA** target_user_p, int score) {
 	USER_DATA* target = *target_user_p;
 	// score를 문자열로 변환하여 a에 저장
 
-	for (int i = 0; i < 4; i++) {
+	for (int i = 3; i >0; i--) {
 		strcpy(target->record[i + 1].record_num, target->record[i].record_num);
 		strcpy(target->record[i + 1].record_time, target->record[i].record_time);
 	}
