@@ -504,7 +504,6 @@ void calScore(int level, int remaining_time, int* score) {
     case 1:
         temp += 100 * (MOSTER_AMOUNT_LV1 - zombie_num);
         temp *= remaining_time;
-        allegro_message("%d %d %d %d %d %d", level, remaining_time, *score, zombie_num, temp, MOSTER_AMOUNT_LV1);
         *score += temp;
         break;
     case 2:

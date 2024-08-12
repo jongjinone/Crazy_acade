@@ -143,7 +143,6 @@ int game_start(int level, int character,int* score)
         off_music(sample_win);
         destroy_map(num_barriers);
         calScore(level, remaining_time, score);
-        allegro_message("%d", *score);
         return level;
     }
     else {
