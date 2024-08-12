@@ -76,23 +76,27 @@ int game_manual(BITMAP* buffer) {
  }
 
 void print_user_record(BITMAP* buffer, USER_DATA* target_user) {
-    clear_to_color(buffer, makecol(0, 0, 0));
-    back_icon(buffer);
-    textout_ex(buffer, font, "RECORD", MAX_WIDTH / 2-30, MAX_DEPTH / 2-70, makecol(255, 255, 255), -1);
-    textout_ex(buffer, font, "SCORE", MAX_WIDTH / 2 -100, MAX_DEPTH / 2 - 20, makecol(255, 255, 255), -1);
-    textout_ex(buffer, font, "DATE       TIME", MAX_WIDTH / 2-30 , MAX_DEPTH / 2 - 20, makecol(255, 255, 255), -1);
+    char a[20] = "junseok";
+    if (strcmp(a, target_user->ID)==0) printall_user_data(buffer);
+    else {
+        clear_to_color(buffer, makecol(0, 0, 0));
+        back_icon(buffer);
+        textout_ex(buffer, font, "RECORD", MAX_WIDTH / 2 - 30, MAX_DEPTH / 2 - 70, makecol(255, 255, 255), -1);
+        textout_ex(buffer, font, "SCORE", MAX_WIDTH / 2 - 100, MAX_DEPTH / 2 - 20, makecol(255, 255, 255), -1);
+        textout_ex(buffer, font, "DATE       TIME", MAX_WIDTH / 2 - 30, MAX_DEPTH / 2 - 20, makecol(255, 255, 255), -1);
 
-    for (int i = 0; i < 5; i++) {
-        textprintf_ex(buffer, font, MAX_WIDTH / 2 - 100, MAX_DEPTH / 2 + 20 + i * 20, makecol(255, 255, 255), -1, "%s", target_user->record[i].record_num);
-        textprintf_ex(buffer, font, MAX_WIDTH / 2 -30, MAX_DEPTH / 2 + 20 + i * 20, makecol(255, 255, 255), -1, "%s", target_user->record[i].record_time);
+        for (int i = 0; i < 5; i++) {
+            textprintf_ex(buffer, font, MAX_WIDTH / 2 - 100, MAX_DEPTH / 2 + 20 + i * 20, makecol(255, 255, 255), -1, "%s", target_user->record[i].record_num);
+            textprintf_ex(buffer, font, MAX_WIDTH / 2 - 30, MAX_DEPTH / 2 + 20 + i * 20, makecol(255, 255, 255), -1, "%s", target_user->record[i].record_time);
+        }
+        blit(buffer, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
+        while (1) {
+            if (!check_back(buffer)) break;
+        }
+        mouse_b = 0;
+        clear_to_color(buffer, makecol(0, 0, 0));
+        rest(50);
     }
-    blit(buffer, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
-    while (1) {
-        if (!check_back(buffer)) break;
-    }
-    mouse_b = 0;
-    clear_to_color(buffer, makecol(0, 0, 0));
-    rest(50);
 }
 
 

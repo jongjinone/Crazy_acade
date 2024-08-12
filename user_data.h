@@ -27,5 +27,7 @@ void freeall_user_data(void);
 int Search(char* ID, char* pwd, USER_DATA** target_user);
 int Insert(char* ID, char* pwd);
 
+void update_score(USER_DATA** target_user_p, int score);
+
 extern USER_DATA* head;
 
