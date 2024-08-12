@@ -68,7 +68,12 @@ game_start:
 
         if (case_num == 0) goto after_login;
     }
-    if (case_num == 2) case_num = game_start(3, 1);
+    if (case_num == 2) {
+        case_num = game_start(3, 1);
+
+        if (case_num == 0) goto after_login;
+    }
+        
 
     destroy_bitmap(buffer);
 

@@ -154,6 +154,11 @@ void set_zombie_pos(int level) {
         break;
     }
     
+    for (int i = 0; i < 10; i++) {
+        Zombie* zombie = &zombies[i];
+        zombie->active = 0;
+    }
+
     for (int i = 0; i < zombie_num; i++) {
         Zombie* zombie = &zombies[i];
         zombie->active = 1;
