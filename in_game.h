@@ -176,3 +176,6 @@ void destroy_map(int num_barriers);
 
 int is_collision(int level, int x, int y);
 int count_zombie();
+
+// 점수 계산
+void calScore(int level, int remaining_time, int* score);

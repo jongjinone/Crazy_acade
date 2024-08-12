@@ -85,6 +85,7 @@ game_start:
          }
     }
 
+
     destroy_bitmap(buffer);
     freeall_user_data();
     return 0;
