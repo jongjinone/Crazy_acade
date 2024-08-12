@@ -74,7 +74,7 @@
 // barrier의 위치 
 #define POSITIONS_LV1 { 0 }
 #define POSITIONS_LV2 { 14, 23, 54, 55, 66, 67, 98, 107 }
-#define POSITIONS_LV3 { 16, 17, 18, 19, 20, 21, 38, 47, 50, 59, 62, 71, 74, 83, 100, 101, 102, 103, 104, 105 }
+#define POSITIONS_LV3 { 17, 18, 19, 20, 21, 38, 47, 50, 59, 62, 71, 74, 83, 100, 101, 102, 103, 104, 105 }
 
 // zombie 초기 HP
 #define ZOMBIE_HP_LV1 3
