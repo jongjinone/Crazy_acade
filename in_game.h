@@ -93,9 +93,8 @@
 
 // zombie 초기 위치
 #define ZOMBIE_POS_LV1 { 15, 55, 91 }
-
 #define ZOMBIE_POS_LV2 { 27, 68, 89, 42, 110 }
-#define ZOMBIE_POS_LV3 { 5, 12, 33, 56, 78, 90, 108 }
+#define ZOMBIE_POS_LV3 { 5, 23, 33, 56, 78, 90, 119 }
 
 // user 구조체
 typedef struct {

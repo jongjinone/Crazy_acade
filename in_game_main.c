@@ -41,8 +41,8 @@ int game_start(int level, int character,int* score)
 
 
     if(level ==1)  sample = play_music(m_stage1_bgm);
-    else if(level ==2  )  sample = play_music(m_stage2_bgm);
     else if (level == 3)  sample = play_music(m_stage3_bgm);
+    else if(level ==2  )  sample = play_music(m_stage2_bgm);
     else   sample = play_music(m_stage1_bgm);
 
     // 백 버퍼
