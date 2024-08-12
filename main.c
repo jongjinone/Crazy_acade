@@ -1,10 +1,13 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "collection.h"
 
+void update_score(USER_DATA** target_user, int score) {
 
+}
 int main() {
 
     initialize_window(MAX_WIDTH, MAX_DEPTH);
+    int score = 0;
     // 더블 버퍼링을 위한 오프스크린 버퍼 생성
     BITMAP* buffer = create_bitmap(MAX_WIDTH, MAX_DEPTH);
     int case_num;
@@ -45,6 +48,7 @@ login:
     }
 
 after_login:
+    score = 0;
     case_num = main_AF_login(buffer);
     if (case_num == 0) goto login;
     if (case_num == 1) goto game_start;
@@ -59,19 +63,33 @@ after_login:
 
 
 game_start:
-    case_num = game_start(1,1);
-    if (case_num == 0) goto after_login;
-    if (case_num == 1) {
-        case_num = game_start(2, 1);
-
-        // 여기에 종료화면 추가하기
-
-        if (case_num == 0) goto after_login;
+    case_num = game_start(1,1,&score);
+    if (case_num == -1) goto after_login;
+    if (case_num == 0) {
+        goto after_login;
     }
-    if (case_num == 2) case_num = game_start(3, 1);
+    if (case_num == 1) {
+        case_num = game_start(2, 1,&score);
+        if (case_num == 0 || case_num == -1) {
+            if (case_num == 0) {
+                update_score(&target_user, score);
+            }
+            goto after_login;
+        }
+    }
+    if (case_num == 2) {
+        case_num = game_start(3, 1,&score);
+        if (case_num == 0) {
+            if (case_num == 0 || case_num == -1) {
+                if (case_num == 0) {
+                    update_score(&target_user, score);
+                }
+                goto after_login;
+            }
+        }
+    }
 
     destroy_bitmap(buffer);
-
     freeall_user_data();
     return 0;
 }
