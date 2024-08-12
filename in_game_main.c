@@ -158,3 +158,15 @@ int game_start(int level, int character,int* score)
         }
     }
 }
+
+void game_over(BITMAP* buffer, int score) {
+    // 버퍼에 텍스트 그리기
+    clear_to_color(buffer, makecol(0, 0, 0));
+    textout_centre_ex(buffer, font, "Final Score !!", WHOLE_x / 2, WHOLE_y/2, makecol(255, 255, 255), -1);
+    textprintf_ex(buffer, font, WHOLE_x/2-20, WHOLE_y/2 +50 , makecol(255, 0, 0), -1, "%d", score);
+
+    // 화면에 버퍼 출력
+    blit(buffer, screen, 0, 0, 0, 0, WHOLE_x, WHOLE_y);
+    rest(3000);
+    clear_to_color(buffer, makecol(0, 0, 0));
+}

@@ -62,8 +62,9 @@ int Enter_PWD(BITMAP* buffer, char* input_ID, char* input_PWD, int text_length) 
         back_icon(buffer);
         ID_PWD_icon(buffer);
         textout_ex(buffer, font, input_ID, MAX_WIDTH / 2 - 100, MAX_DEPTH / 2, makecol(255, 255, 255), -1);
-       // textout_ex(buffer, font, input_PWD, MAX_WIDTH / 2 - 100, MAX_DEPTH / 2 + 30, makecol(255, 255, 255), -1);
-        //  textprintf_ex(screen, font, 100, 100, makecol(0, 255, 0), -1, "Mouse X: %d, Mouse Y: %d",text_length , mouse_y);
+        for (int i = 0; i < text_length; i++) {
+            textout_ex(buffer, font, "*", MAX_WIDTH / 2 - 100 + i * 10, MAX_DEPTH / 2+30, makecol(255, 255, 255), -1);
+        }
         blit(buffer, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
         rest(10);
     }
