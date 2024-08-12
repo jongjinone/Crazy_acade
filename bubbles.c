@@ -34,6 +34,34 @@ void setBubble(int x, int y) {
 
 int explodeBubbles(BITMAP* buffer, int size, BITMAP* background, SAMPLE* sample, int level) {
     double current_time = clock();
+    int num_barriers;
+    int* barriers_pos;
+    static const int barriers_temp_lv1[] = POSITIONS_LV1;
+    static const int barriers_temp_lv2[] = POSITIONS_LV2;
+    static const int barriers_temp_lv3[] = POSITIONS_LV3;
+
+    if (level == 1) {
+        num_barriers = NUM_BARRIERS_LV1;
+        barriers_pos = (int*)malloc(num_barriers * sizeof(int));
+        for (int i = 0; i < num_barriers; i++) {
+            barriers_pos[i] = barriers_temp_lv1[i];
+        }
+    }
+    else if (level == 2) {
+        num_barriers = NUM_BARRIERS_LV2;
+        barriers_pos = (int*)malloc(num_barriers * sizeof(int));
+        for (int i = 0; i < num_barriers; i++) {
+            barriers_pos[i] = barriers_temp_lv2[i];
+        }
+    }
+    else {
+        num_barriers = NUM_BARRIERS_LV3;
+        barriers_pos = (int*)malloc(num_barriers * sizeof(int));
+        for (int i = 0; i < num_barriers; i++) {
+            barriers_pos[i] = barriers_temp_lv3[i];
+        }
+    }
+
     for (int i = 0; i < bubble_count; i++) {
         WaterBubble* bubble = &bubbles[i];
         if (bubble->active) {
@@ -79,7 +107,6 @@ int explodeBubbles(BITMAP* buffer, int size, BITMAP* background, SAMPLE* sample,
         }
         int condition1;
         int condition2;
-
 
         int num_zombies = (level == 1) ? MOSTER_AMOUNT_LV1 : (level == 2 ? MOSTER_AMOUNT_LV2 : MOSTER_AMOUNT_LV3);
 

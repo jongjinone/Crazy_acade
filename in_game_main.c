@@ -113,11 +113,11 @@ int game_start(int level, int character,int* score)
             elapsed_time = (int)difftime(current_time, t);
             remaining_time = 180 - elapsed_time;
 
-            if (remaining_time <= 0 || user.hp==0) { // 남은 시간이 0 이하일 경우 게임 종료
+            if (remaining_time <= 0) { // 남은 시간이 0 이하일 경우 게임 종료
                 remaining_time = 0;
                 break; // 게임 루프를 종료합니다.
             }
-            print_info(remaining_time);
+            print_info(remaining_time, score);
 
             // 백 버퍼의 내용을 화면에 그리기
             blit(buffer, screen, 0, 0, 0, 0, WHOLE_x, WHOLE_y);
@@ -151,6 +151,7 @@ int game_start(int level, int character,int* score)
             rest(2000);
             off_music(sample_lose);
             calScore(level, remaining_time, score);
+           // allegro_message("%d %d %d", level, remaining_time, *score);
             return 0;
         }
         else {
