@@ -174,6 +174,7 @@ void set_zombie_pos(int level) {
 
 // 캐릭터 이미지 로드
 void set_user_char(int character) {
+    user.be_attacked = 0;
     user.hp = USER_HP;
     user.speed = 1;
     user.water_bubble_cnt = 1;
@@ -337,7 +338,7 @@ void control_character(int level, int frame_counter, int frame_delay) {
         if (new_user_y < 0) new_user_y = 0; // 위쪽 경계 체크
         current_image = user.back; // 위쪽 방향키
         for (int i = 0; i < num_zombies; i++) {
-            if (zombies[i].active && abs(abs(new_user_x) - abs(zombies[i].pos_x)) < OBJECT_WIDTH && abs(abs(new_user_y) - abs(zombies[i].pos_y)) < OBJECT_HEIGHT) {
+            if ( (zombies[i].active && abs(abs(new_user_x) - abs(zombies[i].pos_x)) < OBJECT_WIDTH && abs(abs(new_user_y) - abs(zombies[i].pos_y)) < OBJECT_HEIGHT) || user.be_attacked) {
                 user.hp -= zombie_attack;
                 current_image = user.back_attacked;
                 if (user.hp <= 0) {
@@ -351,7 +352,7 @@ void control_character(int level, int frame_counter, int frame_delay) {
         if (new_user_y > MAX_y - OBJECT_HEIGHT) new_user_y = MAX_y - OBJECT_HEIGHT; // 아래쪽 경계 체크
         current_image = user.front; // 아래쪽 방향키
         for (int i = 0; i < num_zombies; i++) {
-            if (zombies[i].active && abs(abs(new_user_x) - abs(zombies[i].pos_x)) < OBJECT_WIDTH && abs(abs(new_user_y) - abs(zombies[i].pos_y)) < OBJECT_HEIGHT) {
+            if ((zombies[i].active && abs(abs(new_user_x) - abs(zombies[i].pos_x)) < OBJECT_WIDTH && abs(abs(new_user_y) - abs(zombies[i].pos_y)) < OBJECT_HEIGHT) || user.be_attacked) {
                 user.hp -= zombie_attack;
                 current_image = user.front_attacked;
                 if (user.hp <= 0) {
@@ -366,7 +367,7 @@ void control_character(int level, int frame_counter, int frame_delay) {
         if (frame_counter % frame_delay < frame_delay / 2) {
             current_image = user.left1;
             for (int i = 0; i < num_zombies; i++) {
-                if (zombies[i].active && abs(abs(new_user_x) - abs(zombies[i].pos_x)) < OBJECT_WIDTH && abs(abs(new_user_y) - abs(zombies[i].pos_y)) < OBJECT_HEIGHT) {
+                if ((zombies[i].active && abs(abs(new_user_x) - abs(zombies[i].pos_x)) < OBJECT_WIDTH && abs(abs(new_user_y) - abs(zombies[i].pos_y)) < OBJECT_HEIGHT)||user.be_attacked) {
                     user.hp -= zombie_attack;
                     current_image = user.left1_attacked;
                     if (user.hp <= 0) {
@@ -378,7 +379,7 @@ void control_character(int level, int frame_counter, int frame_delay) {
         else {
             current_image = user.left2;
             for (int i = 0; i < num_zombies; i++) {
-                if (zombies[i].active && abs(abs(new_user_x) - abs(zombies[i].pos_x)) < OBJECT_WIDTH && abs(abs(new_user_y) - abs(zombies[i].pos_y)) < OBJECT_HEIGHT) {
+                if ((zombies[i].active && abs(abs(new_user_x) - abs(zombies[i].pos_x)) < OBJECT_WIDTH && abs(abs(new_user_y) - abs(zombies[i].pos_y)) < OBJECT_HEIGHT)||user.be_attacked) {
                     user.hp -= zombie_attack;
                     current_image = user.left2_attacked;
                     if (user.hp <= 0) {
@@ -394,7 +395,7 @@ void control_character(int level, int frame_counter, int frame_delay) {
         if ((frame_counter % frame_delay) < (frame_delay / 2)) {
             current_image = user.right1;
             for (int i = 0; i < num_zombies; i++) {
-                if (zombies[i].active && abs(abs(new_user_x) - abs(zombies[i].pos_x)) < OBJECT_WIDTH && abs(abs(new_user_y) - abs(zombies[i].pos_y)) < OBJECT_HEIGHT) {
+                if ((zombies[i].active && abs(abs(new_user_x) - abs(zombies[i].pos_x)) < OBJECT_WIDTH && abs(abs(new_user_y) - abs(zombies[i].pos_y)) < OBJECT_HEIGHT)||user.be_attacked) {
                     user.hp -= zombie_attack;
                     current_image = user.right1_attacked;
                     if (user.hp <= 0) {
@@ -406,7 +407,7 @@ void control_character(int level, int frame_counter, int frame_delay) {
         else {
             current_image = user.right2;
             for (int i = 0; i < num_zombies; i++) {
-                if (zombies[i].active && abs(abs(new_user_x) - abs(zombies[i].pos_x)) < OBJECT_WIDTH && abs(abs(new_user_y) - abs(zombies[i].pos_y)) < OBJECT_HEIGHT) {
+                if ((zombies[i].active && abs(abs(new_user_x) - abs(zombies[i].pos_x)) < OBJECT_WIDTH && abs(abs(new_user_y) - abs(zombies[i].pos_y)) < OBJECT_HEIGHT)||user.be_attacked) {
                     user.hp -= zombie_attack;
                     current_image = user.right2_attacked;
                     if (user.hp <= 0) {

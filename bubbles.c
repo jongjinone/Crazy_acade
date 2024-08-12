@@ -87,18 +87,10 @@ int explodeBubbles(BITMAP* buffer, int size, BITMAP* background, SAMPLE* sample,
     // 폭발 활성화
     for (int i = 0; i < explode_count; i++) {
         WaterExplode* explode = &explodes[i];
+        
         if (explode->active) {
             draw_sprite(buffer, water_explode, explode->x, explode->y);
-            for (int k = 1; k <= explode->size; k++) {
-                int explode_x_size = k * x_size;
-                int explode_y_size = k * y_size;
 
-                draw_sprite(buffer, water_explode, explode->x - explode_x_size, explode->y);
-                draw_sprite(buffer, water_explode, (explode->x + explode_x_size < MAX_x) ? (explode->x + explode_x_size) : MAX_x - 100, explode->y);
-                draw_sprite(buffer, water_explode, explode->x, explode->y - explode_y_size);
-                draw_sprite(buffer, water_explode, explode->x, explode->y + explode_y_size);
-
-            }
             // 폭발 애니메이션 지속 시간
             double explode_time_diff = (double)(current_time - explode->explode_time) / CLOCKS_PER_SEC;
             if (explode_time_diff > 0.8) {
@@ -112,10 +104,57 @@ int explodeBubbles(BITMAP* buffer, int size, BITMAP* background, SAMPLE* sample,
 
         for (int j = 0; j < num_zombies; j++) {
             if (explode->active) {
-                condition1 = explode->x - size * x_size < zombies[j].pos_x+50 && zombies[j].pos_x+50 < explode->x + (size+1) * x_size &&
+                draw_sprite(buffer, water_explode, explode->x, explode->y);
+                int max_up = size;
+                int max_down = size;
+                int max_right = size;
+                int max_left = size;
+                int explode_x_size;
+                int explode_y_size;
+                for (int k = 1; k <= explode->size; k++) {
+                    explode_x_size = k * x_size;
+                    explode_y_size = k * y_size;
+                    // collision 체크
+                    if (is_collision(level, explode->x - explode_x_size, explode->y)) {
+                        max_left = k;
+                    }
+                    if (is_collision(level, (explode->x + explode_x_size < MAX_x) ? (explode->x + explode_x_size) : MAX_x - 100, explode->y)) {
+                        max_right = k;
+                    }
+                    if (is_collision(level, explode->x, explode->y - explode_y_size)) {
+                        max_up = k;
+                    }
+                    if (is_collision(level, explode->x, explode->y + explode_y_size)) {
+                        max_down = k;
+                    }
+                }
+
+                double explode_time_diff = (double)(current_time - explode->explode_time) / CLOCKS_PER_SEC;
+                if (explode_time_diff > 0.8) {
+                    explode->active = 0;
+                }
+
+                for (int k = 1; k <= explode->size; k++) {
+                    explode_x_size = k * x_size;
+                    explode_y_size = k * y_size;
+                    if (k <= max_left) {
+                        draw_sprite(buffer, water_explode, explode->x - explode_x_size, explode->y);
+                    }
+                    if (k <= max_right) {
+                        draw_sprite(buffer, water_explode, (explode->x + explode_x_size < MAX_x) ? (explode->x + explode_x_size) : MAX_x - 100, explode->y);
+                    }
+                    if (k <= max_up) {
+                        draw_sprite(buffer, water_explode, explode->x, explode->y - explode_y_size);
+                    }
+                    if (k <= max_down) {
+                        draw_sprite(buffer, water_explode, explode->x, explode->y + explode_y_size);
+                    }
+                }
+
+                condition1 = explode->x - max_left * x_size < zombies[j].pos_x+50 && zombies[j].pos_x+50 < explode->x + (max_right +1) * x_size &&
                              explode->y < zombies[j].pos_y+37 && zombies[j].pos_y+37 < explode->y + y_size;
 
-                condition2 = explode->y - size * y_size < zombies[j].pos_y + 37 && zombies[j].pos_y + 37 < explode->y + (size + 1) * y_size &&
+                condition2 = explode->y - max_up * y_size < zombies[j].pos_y + 37 && zombies[j].pos_y + 37 < explode->y + (max_down + 1) * y_size &&
                              explode->x < zombies[j].pos_x + 50 && zombies[j].pos_x + 50 < explode->x + x_size;
 
                 if (condition1 || condition2) {
@@ -131,6 +170,25 @@ int explodeBubbles(BITMAP* buffer, int size, BITMAP* background, SAMPLE* sample,
                             return 1;
                         }
                     }
+                }
+            }
+        }
+        int user_condition1;
+        int user_condition2;
+        user.be_attacked = 0;
+        if (explode->active) {
+            user_condition1 = explode->x - size * x_size < user.pos_x + 50 && user.pos_x + 50 < explode->x + (size + 1) * x_size &&
+                explode->y < user.pos_y + 37 && user.pos_y + 37 < explode->y + y_size;
+
+            user_condition2 = explode->y - size * y_size < user.pos_y + 37 && user.pos_y + 37 < explode->y + (size + 1) * y_size &&
+                explode->x < user.pos_x + 50 && user.pos_x + 50 < explode->x + x_size;
+            
+            user.be_attacked = user_condition1 || user_condition2;
+
+            if (user.be_attacked) {
+                user.hp -= USER_ATTACK;
+                if (user.hp <= 0) {
+                    user.hp = 0;
                 }
             }
         }
