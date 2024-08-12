@@ -76,6 +76,10 @@ int game_manual(BITMAP* buffer) {
  }
 
 void print_user_record(BITMAP* buffer, USER_DATA* target_user) {
+
+    int max = 0;
+    int max_idx = 0;
+    int color = makecol(255, 255, 255);
     char a[20] = "junseok";
     if (strcmp(a, target_user->ID)==0) printall_user_data(buffer);
     else {
@@ -86,8 +90,17 @@ void print_user_record(BITMAP* buffer, USER_DATA* target_user) {
         textout_ex(buffer, font, "DATE       TIME", MAX_WIDTH / 2 - 30, MAX_DEPTH / 2 - 20, makecol(255, 255, 255), -1);
 
         for (int i = 0; i < 5; i++) {
-            textprintf_ex(buffer, font, MAX_WIDTH / 2 - 100, MAX_DEPTH / 2 + 20 + i * 20, makecol(255, 255, 255), -1, "%s", target_user->record[i].record_num);
-            textprintf_ex(buffer, font, MAX_WIDTH / 2 - 30, MAX_DEPTH / 2 + 20 + i * 20, makecol(255, 255, 255), -1, "%s", target_user->record[i].record_time);
+            if (atoi(target_user->record[i].record_num) > max) {
+                max_idx = i;
+                max = atoi(target_user->record[i].record_num);
+            }
+        }
+        for (int i = 0; i < 5; i++) {
+            if (i == max_idx) color = makecol(0, 0, 255);
+            else color = makecol(255, 255, 255);
+
+            textprintf_ex(buffer, font, MAX_WIDTH / 2 - 100, MAX_DEPTH / 2 + 20 + i * 20, color, -1, "%s", target_user->record[i].record_num);
+            textprintf_ex(buffer, font, MAX_WIDTH / 2 - 30, MAX_DEPTH / 2 + 20 + i * 20, color, -1, "%s", target_user->record[i].record_time);
         }
         blit(buffer, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
         while (1) {

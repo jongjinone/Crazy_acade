@@ -69,8 +69,7 @@ int New_Enter_PWD(BITMAP* buffer, char* input_ID, char* input_PWD, int text_leng
 
         new_back_icon(buffer);
         new_ID_PWD_icon(buffer);
-       textout_ex(buffer, font, input_ID, MAX_WIDTH / 2 - 100, MAX_DEPTH / 2, makecol(255, 255, 255), -1);
-      //  textout_ex(buffer, font, input_PWD, MAX_WIDTH / 2 - 100, MAX_DEPTH / 2 + 30, makecol(255, 255, 255), -1);
+        textout_ex(buffer, font, input_ID, MAX_WIDTH / 2 - 100, MAX_DEPTH / 2, makecol(255, 255, 255), -1);
         blit(buffer, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
         rest(10);
     }
