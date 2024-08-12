@@ -87,10 +87,12 @@ int game_start(int level, int character,int* score)
             // 물풍선 터트리기 (buffer, size 넘겨줘야함)
             int is_cleared = 0;
             is_cleared = explodeBubbles(buffer, 3, background, bubble_music, level);
+            /*
             if (is_cleared > 0) {
                 ++flag_next;
                 goto end;
             }
+            */
 
             draw_line();
 
@@ -121,6 +123,11 @@ int game_start(int level, int character,int* score)
 
             // 백 버퍼의 내용을 화면에 그리기
             blit(buffer, screen, 0, 0, 0, 0, WHOLE_x, WHOLE_y);
+
+            if (is_cleared > 0) {
+                ++flag_next;
+                goto end;
+            }
 
             ticks--;
             if (ticks != old_ticks) break;
