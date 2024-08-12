@@ -173,6 +173,25 @@ int explodeBubbles(BITMAP* buffer, int size, BITMAP* background, SAMPLE* sample,
                 }
             }
         }
+        int user_condition1;
+        int user_condition2;
+        user.be_attacked = 0;
+        if (explode->active) {
+            user_condition1 = explode->x - size * x_size < user.pos_x + 50 && user.pos_x + 50 < explode->x + (size + 1) * x_size &&
+                explode->y < user.pos_y + 37 && user.pos_y + 37 < explode->y + y_size;
+
+            user_condition2 = explode->y - size * y_size < user.pos_y + 37 && user.pos_y + 37 < explode->y + (size + 1) * y_size &&
+                explode->x < user.pos_x + 50 && user.pos_x + 50 < explode->x + x_size;
+            
+            user.be_attacked = user_condition1 || user_condition2;
+
+            if (user.be_attacked) {
+                user.hp -= USER_ATTACK;
+                if (user.hp <= 0) {
+                    user.hp = 0;
+                }
+            }
+        }
     }
 
     // 활성화된 물풍선 그리기
